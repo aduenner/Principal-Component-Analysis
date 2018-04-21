@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.4.20)  20 APR 2018 22:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.4.20)  20 APR 2018 23:26
 entering extended mode
 **./Proposal.tex
 (Proposal.tex
@@ -390,6 +390,17 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 \Gin@req@height=\dimen111
 \Gin@req@width=\dimen112
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks18
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
 (C:\Users\aduen\AppData\Roaming\MiKTeX\2.9\tex\latex\booktabs\booktabs.sty
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \heavyrulewidth=\dimen113
@@ -414,7 +425,7 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
 \col@sep=\dimen126
 \extrarowheight=\dimen127
-\NC@list=\toks18
+\NC@list=\toks19
 \extratabsurround=\skip43
 \backup@length=\skip44
 )
@@ -424,12 +435,12 @@ Package: paralist 2017/01/22 v2.7 Extended list environments
 \plpartopsep=\skip46
 \plitemsep=\skip47
 \plparsep=\skip48
-\pl@lab=\toks19
+\pl@lab=\toks20
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
 Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks20
-\verbatim@line=\toks21
+\every@verbatim=\toks21
+\verbatim@line=\toks22
 \verbatim@in@stream=\read1
 )
 (C:\Users\aduen\AppData\Roaming\MiKTeX\2.9\tex\latex\subfig\subfig.sty
@@ -587,12 +598,12 @@ LaTeX Font Info:    ... okay on input line 61.
 \scratchbox=\box26
 \nofMPsegments=\count103
 \nofMParguments=\count104
-\everyMPshowfont=\toks22
+\everyMPshowfont=\toks23
 \MPscratchCnt=\count105
 \MPscratchDim=\dimen137
 \MPnumerator=\count106
 \makeMPintoPDFobject=\count107
-\everyMPtoPDFconversion=\toks23
+\everyMPtoPDFconversion=\toks24
 ) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -644,40 +655,79 @@ G,.JBIG2,.JB2,.eps]
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 62.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 62.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 62.
+LaTeX Font Info:    Try loading font information for U+msa on input line 62.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 62.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 68.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 68.
 
 
-LaTeX Warning: Citation `cline2006computation' undefined on input line 67.
+LaTeX Warning: Citation `GELADI19861' on page 1 undefined on input line 74.
 
-No file Proposal.bbl.
+
+LaTeX Warning: Citation `trefethen1997numerical' on page 1 undefined on input l
+ine 75.
+
+
+LaTeX Warning: Citation `trefethen1997numerical' on page 1 undefined on input l
+ine 75.
+
+
+LaTeX Warning: Citation `cline2006computation' on page 1 undefined on input lin
+e 75.
+
+
+LaTeX Warning: Citation `zhang2010two' on page 1 undefined on input line 80.
+
 [1
 
 {C:/Users/aduen/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-(Proposal.aux)
+
+LaTeX Warning: Citation `dabov2006image' on page 2 undefined on input line 81.
+
+
+LaTeX Warning: Citation `vincent2010stacked' on page 2 undefined on input line 
+82.
+
+No file Proposal.bbl.
+[2] (Proposal.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 4242 strings out of 493303
- 63623 string characters out of 3138856
- 130426 words of memory out of 3000000
- 7739 multiletter control sequences out of 15000+200000
- 8181 words of font info for 29 fonts, out of 3000000 for 9000
+ 4566 strings out of 493303
+ 67343 string characters out of 3138856
+ 133959 words of memory out of 3000000
+ 8039 multiletter control sequences out of 15000+200000
+ 11992 words of font info for 45 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,6n,43p,277b,183s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Pro
-gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb>
-Output written on Proposal.pdf (1 page, 37052 bytes).
+ 44i,10n,43p,653b,199s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmss12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10
+.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pf
+b>
+Output written on Proposal.pdf (2 pages, 108703 bytes).
 PDF statistics:
- 22 PDF objects out of 1000 (max. 8388607)
+ 49 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
