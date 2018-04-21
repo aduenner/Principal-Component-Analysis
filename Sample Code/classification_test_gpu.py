@@ -188,7 +188,7 @@ def iterate_batches(inputs, targets, batch_size, shuffle=True):
         for start_index in range(0, len(inputs), batch_size):
 
             batch_indices = indices[start_index:start_index + batch_size]
-            batch_indices = torch.from_numpy(batch_indices).cuda()
+            batch_indices = torch.from_numpy(batch_indices).type(torch.LongTensor).cuda()
 
             yield inputs[batch_indices], targets[batch_indices]
 
