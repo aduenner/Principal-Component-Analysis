@@ -74,11 +74,11 @@ def main(train_epochs=50, learning_rate=0.001, batch_size=100):
     n_training = len(training_data)
     n_testing = len(testing_data)
 
-    c_training_data = torch.from_numpy(training_data)
-    c_testing_data = torch.from_numpy(testing_data)
+    training_data = torch.from_numpy(training_data)
+    testing_data = torch.from_numpy(testing_data)
 
-    c_training_labels = torch.from_numpy(training_labels)
-    c_testing_labels = torch.from_numpy(testing_labels)
+    training_labels = torch.from_numpy(training_labels)
+    testing_labels = torch.from_numpy(testing_labels)
 
     print("Initializing Network...")
 
@@ -101,7 +101,7 @@ def main(train_epochs=50, learning_rate=0.001, batch_size=100):
         running_loss = 0.0
         epoch_start = time.time()
 
-        for batch in iterate_batches(c_training_data, c_training_labels,
+        for batch in iterate_batches(training_data, training_labels,
                                      batch_size, shuffle=True):
 
             batch_inputs, batch_labels = batch
@@ -132,7 +132,7 @@ def main(train_epochs=50, learning_rate=0.001, batch_size=100):
     class_correct = [0] * 10
     class_total = [0] * 10
 
-    for batch in iterate_batches(c_testing_data, c_testing_labels,
+    for batch in iterate_batches(testing_data, testing_labels,
                                 batch_size, shuffle=False):
 
         batch_inputs, batch_labels = batch
