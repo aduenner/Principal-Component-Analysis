@@ -64,7 +64,7 @@ class Net(nn.Module):
         return num_features
 
 
-def main(train_epochs=30, learning_rate=0.001, batch_size=100):
+def main(train_epochs=50, learning_rate=0.001, batch_size=100):
 
     print("Preparing Dataset...")
 
@@ -202,7 +202,5 @@ def imshow(img):
 
 if __name__ == "__main__":
 
-    main();
-
-    # with torch.cuda.device(1):
-    #     main()
+    with torch.cuda.device(0):
+        main()
