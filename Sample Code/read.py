@@ -6,7 +6,7 @@ CONST_TOTAL_DATA_SETS = 6
 CONST_DATA_DIRECTORY = "Images"
 
 
-def generate_training_sets(training_percentage = 0.75, total_images=None, permutation=True,
+def save_training_sets(training_percentage = 0.75, total_images=None, permutation=True,
 						   datatype="float32"):
 	"""
 	Function to generate both a training and testing set from the CIFAR-10 dataset
@@ -41,6 +41,8 @@ def generate_training_sets(training_percentage = 0.75, total_images=None, permut
 	data = np.concatenate(data)
 	labels = np.concatenate(labels)
 
+	print(np.mean(data))
+
 	# Split image into three channels and set channels to the last axis
 	data = data.reshape(-1, 3, 32, 32)
 	# data = np.rollaxis(data, 1, 4)
@@ -66,6 +68,10 @@ def generate_training_sets(training_percentage = 0.75, total_images=None, permut
 
 	testing_data = data[training_count:]
 	testing_labels = labels[training_count:]
+
+
+
+
 
 	return training_data, testing_data, training_labels, testing_labels
 
