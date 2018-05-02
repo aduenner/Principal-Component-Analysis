@@ -20,6 +20,7 @@ Applies gaussian noise filter over input images
 '''
 def apply_gaussian_noise(images, scale=30.0):
 
+	dtype = images.dtype
 
 	noise_mask = np.random.normal(scale=scale, size=images.shape)
 	noise_mask = np.array(noise_mask, dtype="int8")
@@ -80,10 +81,8 @@ def generate_noised_data():
 	show_image(images[0], str(labels[0]))
 	show_image(noise_images[0], str(labels[0]))
 
-	np.save("noised_images.npy", noise_images)
-
-
-
+	np.save("new_images.npy", noise_images)
+	
 
 if __name__ == '__main__':
 	
