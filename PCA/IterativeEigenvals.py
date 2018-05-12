@@ -72,8 +72,7 @@ def SimulIter(A,neigs=1,maxiters=100,tol=1e-6):
         Err=(np.eye(A.shape[0])-np.dot(Q,np.matrix.getH(Q)))@Qold
         Err=np.linalg.norm(Err)
         ErrOut[k]=Err
-        print(Err)
-        if Err<=1e-6:
+        if Err<=tol:
             break
     return Q,np.diag(R),ErrOut
     
