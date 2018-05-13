@@ -9,30 +9,28 @@ import matplotlib.pyplot as plt
 from PCA import *
 import numpy as np
 
-num_components = 100  # Number of principal components
-num_images = 1000  # number of images from set to test with
-image_set_full = np.load('NNHelper\original_images.npy')
-image_set = image_set_full[0:num_images, :]
+def datatest(imageset):
+    plot_images(imageset)
+    return imageset
 
-
-def simuliter(input_set):
-    transformed_set = pca_transform(input_set, num_components, 'Simul_Iter')
+def simuliter(imageset,ncomponents):
+    transformed_set, components = pca_transform(imageset, ncomponents, 'Simul_Iter')
     plot_images(transformed_set)
-    return transformed_set
+    return transformed_set, components
 
 
-def fullsvd(imageset):
-    transformed_set = pca_transform(imageset, num_components, 'Full_SVD')
+def fullsvd(imageset,ncomponents):
+    transformed_set, components = pca_transform(imageset, ncomponents, 'Full_SVD')
     plot_images(transformed_set)
-    return transformed_set
+    return transformed_set, components
 
 
-def Incremental_PCA(imageset):
-    transformed_set = pca_transform(imageset, num_components, 'Incremental_PCA')
+def incremental_pca(imageset,ncomponents):
+    transformed_set, components = pca_transform(imageset, ncomponents, 'Incremental_PCA')
     plot_images(transformed_set)
-    return transformed_set
+    return transformed_set, components
 
-def NIPALS(imageset):
+def nipals(imageset):
     return
 
 def extract_image(imgset, shape, index):
@@ -52,8 +50,9 @@ def plot_images(imageset, num_images=16):
     shape = int(np.ceil(np.sqrt(np.shape(imageset)[1])))
     numrows = int(np.ceil(np.sqrt(num_images)))
     for i in range(num_images):
-        plt.subplot[numrows,numrows,i+1] = extract_image(imageset,shape,i)
-        plt.imshow()
+        plt.subplot(numrows, numrows, i+1)
+        plt.imshow(extract_image(imageset,shape,i))
+    plt.show()
 
 
 

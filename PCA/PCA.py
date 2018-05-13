@@ -14,41 +14,50 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
 
     Returns:
         transformed_image_set - Image set transformed by principal components
-
+        principal_components - Principal Components
     Note:  Stopping condition is not supported by all analysis types. Choose either a stop_condition value or number of
     components but not both"""
 
     # Transform image set to double
     image_set = image_set/255.0
+    images = np.shape(image_set)[0]
+    pixels = np.shape(image_set)[1]
     # Initialize transformed image set
-    transformed_image_set = np.zeros(np.shape(image_set))
+    transformed_image_set = np.zeros((images,pixels))
+    principal_components = np.zeros((images,num_components))
 
     if analysis_type == "Simultaneous_Iteration":
         zero_mean_set,image_means = zero_mean(image_set)
-        image_set_covariance = np.cov(zero_mean_set)
+        image_set_covariance = np.cov(image_set)
         principal_components,_,_ = SimulIter(image_set_covariance,num_components)
         transformed_image_set = pca_transform_set(zero_mean_set,principal_components,image_means)
 
     elif analysis_type == "Full_SVD":
-        builtin_pca= PCA(num_components)
+        builtin_pca = PCA(num_components)
         builtin_pca.fit(image_set)
-        transformed_image_set = builtin_pca.inverse_transform(image_set)
+        principal_components = builtin_pca.components_
+        imageset_reduced = np.dot(image_set - builtin_pca.mean_,builtin_pca.components_.T)
+
+        transformed_image_set = np.dot(imageset_reduced, principal_components) + builtin_pca.mean_
 
     elif analysis_type == "Incremental_PCA":
         incremental_pca = IncrementalPCA(num_components)
         incremental_pca.fit(image_set)
-        transformed_image_set = incremental_pca.inverse_transform(image_set)
+        principal_components = incremental_pca.components_
+        imageset_reduced = np.dot(image_set - incremental_pca.mean_, incremental_pca.components_.T)
+
+        transformed_image_set = np.dot(imageset_reduced, principal_components) +incremental_pca.mean_
 
     elif analysis_type == "NIPALS":
         transformed_image_set = ''
 
-    return transformed_image_set
+    return transformed_image_set, principal_components
 
 
 def zero_mean(image_set):
     """Use to zero the mean of images in rows of input matrix"""
     num_img = np.shape(image_set)[0]
-    mean_val=np.zeros(num_img)
+    mean_val = np.zeros(num_img)
 
     for i in range(num_img):
         # Mean value for each image is the mean of its pixels which are represented in the columns of the image's row
