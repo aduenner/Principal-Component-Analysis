@@ -20,7 +20,6 @@ def NIPAL_GS(X, num_components, threshold=1e-6):
             if i>0:
                 A=np.dot(U[i,:].T,U[:,i])
                 U[:,i] -= np.dot(U[i,:],A)
-            #U[:,i] = np.dot(U[:,i],1/np.sqrt(np.dot(U[:,i].T,U[:,i])))
 
             U[:,i]=U[:,i]/np.linalg.norm(U[:,i])
             V[:,i] = np.dot(R,U[:,i])
@@ -28,7 +27,6 @@ def NIPAL_GS(X, num_components, threshold=1e-6):
                 B=np.dot(V[i,:].T,V[:,i])
                 V[:,i] -= np.dot(V[i,:],B)
             eigenval = np.linalg.norm(V[:,i])
-            #eigenval = np.dot(V[:,i].T,V[:,i])
             V[:,i] /= eigenval
 
             if abs(eigenval-mu)<threshold:

@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38f2ccc7-5dc6-4645-8bc4-10e3f77f3a7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NIPALS.py" beforeDir="false" afterPath="$PROJECT_DIR$/NIPALS.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NIPALS_MGS.py" beforeDir="false" afterPath="$PROJECT_DIR$/NIPALS_MGS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PCA_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testall.py" beforeDir="false" afterPath="$PROJECT_DIR$/testall.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,7 +29,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testall.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="testall.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testall.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="220">
@@ -67,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NIPALS_MGS.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NIPALS_MGS.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NIPALS_MGS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+            <state relative-caret-position="72">
+              <caret line="33" column="23" lean-forward="true" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -100,10 +95,10 @@
         <option value="$PROJECT_DIR$/SimulPowerIter.py" />
         <option value="$PROJECT_DIR$/DatasetTest.py" />
         <option value="$PROJECT_DIR$/NIPALS.py" />
-        <option value="$PROJECT_DIR$/NIPALS_MGS.py" />
         <option value="$PROJECT_DIR$/testall.py" />
         <option value="$PROJECT_DIR$/PCA.py" />
         <option value="$PROJECT_DIR$/PCA_test.py" />
+        <option value="$PROJECT_DIR$/NIPALS_MGS.py" />
       </list>
     </option>
   </component>
@@ -430,13 +425,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NIPALS_MGS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PCA.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -471,6 +459,13 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NIPALS_MGS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="33" column="23" lean-forward="true" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="23" />
         </state>
       </provider>
     </entry>
