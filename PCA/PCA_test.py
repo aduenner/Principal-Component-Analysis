@@ -14,7 +14,7 @@ def datatest(imageset):
     return imageset
 
 def simuliter(imageset,ncomponents):
-    transformed_set, components = pca_transform(imageset, ncomponents, 'Simul_Iter')
+    transformed_set, components = pca_transform(imageset, ncomponents, 'Simultaneous_Iteration')
     plot_images(transformed_set)
     return transformed_set, components
 

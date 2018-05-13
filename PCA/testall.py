@@ -1,7 +1,7 @@
 import numpy as np
 import PCA_test as pcatest
 
-num_components = 100  # Number of principal components
+num_components = 10  # Number of principal components
 num_images = 1000  # number of images from set to test with
 image_set_full = np.load('NNHelper\original_images.npy')
 image_set = image_set_full[0:num_images, :]

@@ -1,7 +1,8 @@
 import numpy as np
+import SimulPowerIter as spi
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
-from SimulPowerIter import SimulIter
+
 
 
 def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6):
@@ -28,8 +29,9 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
 
     if analysis_type == "Simultaneous_Iteration":
         zero_mean_set,image_means = zero_mean(image_set)
-        image_set_covariance = np.cov(image_set)
-        principal_components,_,_ = SimulIter(image_set_covariance,num_components)
+        image_set_covariance = np.cov(image_set.T)
+        principal_components,_,_ = spi.SimulIter(image_set_covariance,neigs=num_components,maxiters=100,tol=1e-6)
+        principal_components = principal_components.T
         transformed_image_set = pca_transform_set(zero_mean_set,principal_components,image_means)
 
     elif analysis_type == "Full_SVD":
@@ -69,8 +71,8 @@ def zero_mean(image_set):
 
 def pca_transform_set(OriginalSet, EigenVectors, Mean):
     """Use projection matrix to transform images to reduced rank subspace"""
-
-    new_set = (OriginalSet @ EigenVectors) @ np.transpose(EigenVectors)
+    reduced_set = np.dot(OriginalSet,EigenVectors.T)
+    new_set = np.dot(reduced_set,EigenVectors)
     for i in range(np.shape(new_set)[0]):
         new_set[i, :] += Mean[i]
 
