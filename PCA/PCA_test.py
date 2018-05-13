@@ -13,6 +13,13 @@ def datatest(imageset):
     plot_images(imageset)
     return imageset
 
+def meantest(imageset):
+    means = np.mean(imageset,axis=1,keepdims=True)
+    imagesetout=imageset-means
+    plot_images(imagesetout)
+    return imagesetout
+
+
 def simuliter(imageset, ncomponents):
     transformed_set, components = pca_transform(imageset, ncomponents, 'Simultaneous_Iteration')
     plot_images(transformed_set)
@@ -35,6 +42,12 @@ def incremental_pca(imageset, ncomponents):
 
 def nipals(imageset, ncomponents):
     transformed_set, components = pca_transform(imageset, ncomponents, 'NIPALS')
+    plot_images(transformed_set)
+    plot_images(components,np.shape(components)[0])
+    return transformed_set, components
+
+def nipalsgs(imageset, ncomponents):
+    transformed_set, components = pca_transform(imageset, ncomponents, 'NIPALS_GS')
     plot_images(transformed_set)
     plot_images(components,np.shape(components)[0])
     return transformed_set, components
