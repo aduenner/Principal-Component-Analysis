@@ -2,16 +2,22 @@ import numpy as np
 
 def NIPALS(X, num_components, threshold=1e-6):
 
+    Residuals = X
     Scores = np.zeros((np.shape(X)[0],num_components))
     Loadings = np.zeros((np.shape(X)[1],num_components))
-
+    t = X[:,1]
     Eigenvals = np.zeros(num_components)
 
-    num_iters=100
-
     for i in range(num_components):
-        t = X[:, 1]
-        for j in range(num_iters):
+
+        mu = 0
+        v=R[:,i]
+        for j in range(100)
+            U=np.dot(R.T,V)
+
+
+
+
         # compute loadings
         p = np.dot(X.T, t)/np.dot(t.T, t)
         # add loadings to matrix of loadings

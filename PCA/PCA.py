@@ -1,5 +1,6 @@
 import numpy as np
 import SimulPowerIter as spi
+import NIPALS as nip
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
 
@@ -16,6 +17,8 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     Returns:
         transformed_image_set - Image set transformed by principal components
         principal_components - Principal Components
+        Scores
+        Loadings
     Note:  Stopping condition is not supported by all analysis types. Choose either a stop_condition value or number of
     components but not both"""
 
@@ -29,8 +32,9 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
 
     if analysis_type == "Simultaneous_Iteration":
         zero_mean_set,image_means = zero_mean(image_set)
-        image_set_covariance = np.cov(image_set.T)
-        principal_components,_,_ = spi.SimulIter(image_set_covariance,neigs=num_components,maxiters=100,tol=1e-6)
+        # image_set_covariance = np.cov(image_set.T)
+        image_set_covariance = np.dot(zero_mean_set.T,zero_mean_set)
+        principal_components,evalues_,_ = spi.SimulIter(image_set_covariance,neigs=num_components,maxiters=100,tol=1e-6)
         principal_components = principal_components.T
         transformed_image_set = pca_transform_set(zero_mean_set,principal_components,image_means)
 
@@ -51,7 +55,12 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         transformed_image_set = np.dot(imageset_reduced, principal_components) +incremental_pca.mean_
 
     elif analysis_type == "NIPALS":
-        transformed_image_set = ''
+        zero_mean_set, image_means = zero_mean(image_set)
+        scores, loadings, eigenvals = nip.NIPALS(zero_mean_set,num_components,stop_condition)
+        transformed_image_set = np.dot(scores,loadings.T)
+        principal_components = loadings.T
+        for i in range(np.shape(transformed_image_set)[0]):
+            transformed_image_set[i, :] += image_means[i]
 
     return transformed_image_set, principal_components
 

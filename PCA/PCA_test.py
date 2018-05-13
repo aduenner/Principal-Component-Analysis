@@ -13,25 +13,31 @@ def datatest(imageset):
     plot_images(imageset)
     return imageset
 
-def simuliter(imageset,ncomponents):
+def simuliter(imageset, ncomponents):
     transformed_set, components = pca_transform(imageset, ncomponents, 'Simultaneous_Iteration')
     plot_images(transformed_set)
+    plot_images(components, np.shape(components)[0])
     return transformed_set, components
 
 
-def fullsvd(imageset,ncomponents):
+def fullsvd(imageset, ncomponents):
     transformed_set, components = pca_transform(imageset, ncomponents, 'Full_SVD')
     plot_images(transformed_set)
+    plot_images(components, np.shape(components)[0])
     return transformed_set, components
 
 
-def incremental_pca(imageset,ncomponents):
+def incremental_pca(imageset, ncomponents):
     transformed_set, components = pca_transform(imageset, ncomponents, 'Incremental_PCA')
     plot_images(transformed_set)
+    plot_images(components, np.shape(components)[0])
     return transformed_set, components
 
-def nipals(imageset):
-    return
+def nipals(imageset, ncomponents):
+    transformed_set, components = pca_transform(imageset, ncomponents, 'NIPALS')
+    plot_images(transformed_set)
+    plot_images(components,np.shape(components)[0])
+    return transformed_set, components
 
 def extract_image(imgset, shape, index):
     """Extracts a single square image from the image db
