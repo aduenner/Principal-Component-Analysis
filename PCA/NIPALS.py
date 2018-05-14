@@ -4,7 +4,6 @@ def NIPALS(X, num_components, threshold=1e-3):
 
 
     Scores = np.zeros((np.shape(X)[0],num_components))
-    Scores = torch.zeros([np.shape[X][0],num_components])
     Loadings = np.zeros([np.shape(X)[1],num_components])
 
     Eigenvals = np.zeros(num_components)

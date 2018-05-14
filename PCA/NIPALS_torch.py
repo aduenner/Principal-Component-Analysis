@@ -17,7 +17,7 @@ def NIPALS(X, num_components, threshold=1e-6):
             # compute loadings
             #p = np.dot(X.T, t) / np.dot(t.T, t)
             p = torch.mv(torch.t(X),t)
-            p = torch.div(p,torch.dot(t,t))
+            p = torch.div(p,torch.norm(p))
             Loadings[:, i] = p
             # p = np.dot(p,np.sqrt(np.dot(p.T,p)))
 
@@ -33,11 +33,13 @@ def NIPALS(X, num_components, threshold=1e-6):
             # check for convergence
             diff = np.abs(old_eigen - new_eigen)
             if diff < threshold:
+                print(new_eigen)
                 break
             old_eigen = new_eigen
 
         # Update Xh
-        torch.addr(1,X,-1,t,p)
+        r = torch.ger(t,p)
+        X -= r
 
     return Scores.cpu().numpy(), Loadings.cpu().numpy(), Eigenvals.cpu().numpy()
 
