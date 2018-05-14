@@ -2,6 +2,7 @@ import numpy as np
 import SimulPowerIter as spi
 import NIPALS as nip
 import NIPALS_MGS as ngs
+import NIPALS_torch as nip_gpu
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
 
@@ -68,6 +69,14 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         scores, loadings, eigenvals = ngs.NIPAL_GS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
         transformed_image_set+=image_means
+        principal_components = loadings.T
+
+    elif analysis_type == "NIPALS_GPU":
+        image_means = np.mean(image_set, axis=1, keepdims=True)
+        image_set -= image_means
+        scores, loadings, eigenvals = nip_gpu.NIPAL(image_set, num_components, stop_condition)
+        transformed_image_set = np.dot(scores, loadings.T)
+        transformed_image_set += image_means
         principal_components = loadings.T
 
 
