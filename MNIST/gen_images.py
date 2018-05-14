@@ -2,6 +2,7 @@ import numpy as np
 
 import pickle
 import cv2
+from matplotlib import pyplot as plt
 
 
 def load_original_dataset():
@@ -18,16 +19,46 @@ Applies gaussian noise filter over input images
 	:param: scale - magnitude of noise filter
 	:return: new array with same shape as input containing noised images
 '''
-def apply_gaussian_noise(images, scale=30.0):
+def apply_gaussian_noise(images, magnitude=10.0, scale=5.0, show_n=0):
 
 	dtype = images.dtype
 
-	noise_mask = np.random.normal(scale=scale, size=images.shape)
-	noise_mask = np.array(noise_mask, dtype="int8")
+	scales = np.random.normal(magnitude, scale, len(images))
+	scales[scales < 0] = 0.0
 
-	images = np.array(np.clip((noise_mask + images), 0, 255), dtype="uint8")
+	for i in range(len(images)):
+
+		noise_mask = np.random.normal(scale=scales[i], size=images[i].size)
+		noise_mask = np.array(noise_mask, dtype="int8")
+
+		images[i] = np.clip((noise_mask + images[i]), 0, 255)
+
+		if show_n > 0 and i < show_n:
+
+			show_image(images[i])
+
+	images = np.array(images, dtype="uint8")
 
 	return images
+
+def apply_speckling_noise(images, p=0.01, show_n=0):
+
+	mask = np.random.binomial(1, p, images.shape)
+
+	images[mask == 1] = 255 - images[mask == 1]
+
+	for i in range(len(images)):
+
+		if show_n > 0 and i < show_n:
+
+			show_image(images[i])
+
+	images = np.array(images, dtype="uint8")
+
+	return images
+
+
+
 
 
 '''
@@ -50,7 +81,7 @@ Applies brightness filter over input images
 	:param: brightness - integer brightness to be added to image (between -255 and 255);
 	:return: new array with same shape as input containing brightned images
 '''
-def apply_contrast_filter(images, brightness=30):
+def apply_brightness_filter(images, brightness=30):
 	
 	images = np.array(np.clip((images + brightness), 0, 255), dtype="uint8")
 
@@ -67,8 +98,9 @@ def show_image(flattened, win_name="Display", shape=(28, 28)):
 
 	image = flattened.reshape(shape)
 
-	cv2.imshow(win_name, image)
-	cv2.waitKey(0)
+	plt.imshow(image, cmap='gray')
+	plt.show()
+	k = cv2.waitKey(0) & 0xFF
 
 
 def generate_noised_data():
