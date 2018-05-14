@@ -10,7 +10,7 @@ CONST_TEST_LABELS = "test_labels.npy"
 def generate_dataset(data, labels, shape, n_dims, 
 					 train_data_save=CONST_TRAIN_DATA, train_labels_save=CONST_TRAIN_LABELS,
 					 test_data_save=CONST_TEST_DATA, test_labels_save=CONST_TEST_LABELS,
-					 training_percentage=0.75, total_images=None, permutation=True, dtype="float32"):
+					 training_percentage=0.75, total_images=None, permutation=True, dtype="uint8"):
 
 	data = np.load(data)
 	labels = np.load(labels)
