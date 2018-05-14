@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38f2ccc7-5dc6-4645-8bc4-10e3f77f3a7c" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/NIPALS_torch.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nipalsmgsbackup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NIPALS.py" beforeDir="false" afterPath="$PROJECT_DIR$/NIPALS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NIPALS_MGS.py" beforeDir="false" afterPath="$PROJECT_DIR$/NIPALS_MGS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NIPALS_torch.py" beforeDir="false" afterPath="$PROJECT_DIR$/NIPALS_torch.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PCA_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testall.py" beforeDir="false" afterPath="$PROJECT_DIR$/testall.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,7 +22,7 @@
       <file leaf-file-name="PCA_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PCA_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
+            <state relative-caret-position="138">
               <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
               <folding>
                 <element signature="e#85#116#0" expanded="true" />
@@ -36,7 +31,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testall.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="testall.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testall.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
@@ -48,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PCA.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PCA.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PCA.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="73" column="37" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
+            <state relative-caret-position="342">
+              <caret line="73" column="4" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -63,8 +58,8 @@
       <file leaf-file-name="NIPALS_torch.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NIPALS_torch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="902">
-              <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
+            <state relative-caret-position="88">
+              <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -75,7 +70,7 @@
       <file leaf-file-name="NIPALS.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NIPALS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
+            <state relative-caret-position="836">
               <caret line="39" column="4" lean-forward="true" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="38" />
             </state>
           </provider>
@@ -93,8 +88,8 @@
       <file leaf-file-name="nipalsmgsbackup.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nipalsmgsbackup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="880">
-              <caret line="40" selection-end-line="48" />
+            <state relative-caret-position="110">
+              <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -125,9 +120,9 @@
         <option value="$PROJECT_DIR$/nipalsmgsbackup.py" />
         <option value="$PROJECT_DIR$/NIPALS_MGS.py" />
         <option value="$PROJECT_DIR$/NIPALS.py" />
-        <option value="$PROJECT_DIR$/PCA.py" />
         <option value="$PROJECT_DIR$/PCA_test.py" />
         <option value="$PROJECT_DIR$/testall.py" />
+        <option value="$PROJECT_DIR$/PCA.py" />
         <option value="$PROJECT_DIR$/NIPALS_torch.py" />
       </list>
     </option>
@@ -315,11 +310,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1633" height="1053" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="13" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
-      <window_info anchor="right" x="0" y="0" width="155" height="846" id="Documentation" order="5" sideWeight="0.50653595" side_tool="true" visible="true" weight="0.16429895" />
+      <window_info anchor="right" x="0" y="0" width="155" height="846" id="Documentation" order="5" sideWeight="0.50859106" side_tool="true" weight="0.32983324" />
       <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="2" />
       <window_info anchor="bottom" id="Python Console" order="5" weight="0.32897604" />
@@ -328,7 +322,7 @@
       <window_info content_ui="combo" id="Project" order="1" weight="0.24953675" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="0" />
-      <window_info anchor="right" id="SciView" order="1" sideWeight="0.49346405" weight="0.32983324" />
+      <window_info anchor="right" id="SciView" order="1" sideWeight="0.49140894" visible="true" weight="0.32983324" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.4" />
@@ -342,29 +336,29 @@
       <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="6" visible="true" weight="0.32897604" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="Message" order="7" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="9" weight="0.36601308" />
-      <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
-      <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" weight="0.24953675" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="2" />
+      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="1" sideWeight="0.49140894" visible="true" weight="0.32983324" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="13" />
-      <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
+      <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Run" order="9" visible="true" weight="0.36601308" />
+      <window_info anchor="bottom" id="Find" order="8" weight="0.32897604" />
+      <window_info anchor="bottom" id="Python Console" order="5" weight="0.32897604" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.4" />
-      <window_info anchor="right" x="0" y="0" width="358" height="853" id="Documentation" order="5" sideWeight="0.50653595" side_tool="true" visible="true" weight="0.32983324" />
+      <window_info anchor="right" x="0" y="0" width="155" height="846" id="Documentation" order="5" sideWeight="0.50859106" side_tool="true" visible="true" weight="0.32983324" />
       <window_info anchor="right" id="Database" order="0" />
       <window_info anchor="bottom" id="Terminal" order="4" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="2" />
-      <window_info active="true" anchor="right" id="SciView" order="1" sideWeight="0.49346405" visible="true" weight="0.32983324" />
-      <window_info anchor="bottom" id="Find" order="8" weight="0.32897604" />
+      <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
       <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="6" visible="true" weight="0.32897604" />
-      <window_info anchor="bottom" id="Python Console" order="5" weight="0.32897604" />
+      <window_info anchor="bottom" id="Message" order="7" />
+      <window_info id="Favorites" order="0" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,41 +680,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nipalsmgsbackup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="40" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PCA.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="73" column="37" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/NIPALS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="39" column="4" lean-forward="true" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/NIPALS_torch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="902">
-          <caret line="41" column="4" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="110">
+          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PCA_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
+        <state relative-caret-position="138">
           <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
           <folding>
             <element signature="e#85#116#0" expanded="true" />
@@ -728,10 +695,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/NIPALS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="836">
+          <caret line="39" column="4" lean-forward="true" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/testall.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="15" column="76" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="76" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NIPALS_torch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PCA.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="73" column="4" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
