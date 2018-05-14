@@ -41,4 +41,9 @@ def NIPALS(X, num_components, threshold=1e-6, max_iter=50):
         X.sub_(torch.ger(t,p))
 
     return Scores.cpu().numpy(), Loadings.cpu().numpy(), Eigenvals.cpu().numpy()
-    
+
+
+
+
+
+

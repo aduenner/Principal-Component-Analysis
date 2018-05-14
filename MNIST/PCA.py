@@ -2,8 +2,10 @@ import numpy as np
 import SimulPowerIter as spi
 import NIPALS as nip
 import NIPALS_MGS as ngs
+import NIPALS_torch as nip_gpu
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
+import time
 
 
 
@@ -60,8 +62,10 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     elif analysis_type == "NIPALS":
         image_means=np.mean(image_set, axis=1,keepdims=True)
         image_set -= image_means
+        _start = time.time()
         scores, loadings, eigenvals = nip.NIPALS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
+        _elapsed = time.time() - _start
         #transformed_image_set = add_mean(transformed_image_set,image_means)
         principal_components = loadings.T
 
@@ -73,7 +77,18 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         transformed_image_set+=image_means
         principal_components = loadings.T
 
+    elif analysis_type == "NIPALS_GPU":
+        image_means = np.mean(image_set, axis=1, keepdims=True)
+        image_set -= image_means
+        _start = time.time()
+        scores, loadings, eigenvals = nip_gpu.NIPALS(image_set, num_components, stop_condition)
+        _elapsed = time.time() - _start
+        transformed_image_set = np.dot(scores, loadings.T)
+        transformed_image_set += image_means
+        principal_components = loadings.T
+
     transformed_image_set = transformed_image_set.reshape(original_shape)
+    print(_elapsed)
 
     return transformed_image_set, principal_components
 
