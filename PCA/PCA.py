@@ -66,7 +66,7 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     elif analysis_type == "NIPALS_GS":
         image_means=np.mean(image_set, axis=1,keepdims=True)
         image_set -= image_means
-        scores, loadings, eigenvals = ngs.NIPAL_GS(image_set,num_components,stop_condition)
+        scores, loadings, eigenvals = ngs.NIPALS_GS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
         transformed_image_set+=image_means
         principal_components = loadings.T
