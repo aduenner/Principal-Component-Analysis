@@ -8,11 +8,11 @@ Created on Sat May 12 14:40:48 2018
 import matplotlib.pyplot as plt
 from PCA import *
 import numpy as np
-import timeit functools
+
 
 
 def datatest(imageset):
-    plot_images(imageset)
+    plot_images(imageset,10)
     return imageset
 
 def meantest(imageset):
@@ -31,8 +31,8 @@ def simuliter(imageset, ncomponents):
 
 def fullsvd(imageset, ncomponents):
     transformed_set, components = pca_transform(imageset, ncomponents, 'Full_SVD')
-    plot_images(transformed_set)
-    plot_images(components, min(np.shape(components)[0],16))
+    plot_images(transformed_set,1)
+    plot_images(components, min(np.shape(components)[0],4))
     return transformed_set, components
 
 
@@ -79,12 +79,14 @@ def extract_image(imgset, shape, index):
     return image_out
 
 
-def plot_images(imageset, num_images=16):
+def plot_images(imageset, num_images=4):
     shape = int(np.ceil(np.sqrt(np.shape(imageset)[1])))
     numrows = int(np.ceil(np.sqrt(num_images)))
     for i in range(num_images):
         plt.subplot(numrows, numrows, i+1)
-        plt.imshow(extract_image(imageset,shape,i))
+        plt.imshow(extract_image(imageset,shape,i),cmap='gray')
+        plt.axis('off')
+
     plt.show()
 
 

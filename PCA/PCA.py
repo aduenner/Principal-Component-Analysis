@@ -33,13 +33,13 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     if analysis_type == "Simultaneous_Iteration":
         image_means = np.mean(image_set, axis=0, keepdims=True)
         image_set -= image_means
-        image_set += 0.001
+        image_set += np.finfo(float).eps
         # image_set_covariance = np.cov(image_set.T)
         image_set_covariance = np.dot(image_set.T,image_set)/(np.shape(image_set)[1]-1)
         eigenvectors,evalues_,_ = spi.SimulIter(image_set_covariance,neigs=num_components,maxiters=100,tol=1e-6)
         reduced_set = np.dot(image_set, eigenvectors)
         principal_components = eigenvectors.T
-        transformed_image_set = np.dot(reduced_set, principal_components)+image_means-0.001
+        transformed_image_set = np.dot(reduced_set, principal_components)+image_means
 
 
     elif analysis_type == "Full_SVD":
@@ -59,10 +59,10 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     elif analysis_type == "NIPALS":
         image_means_row=np.mean(image_set, axis=0, keepdims=True)
         image_set -= image_means_row
-        image_set += 0.001
+        image_set += np.finfo(float).eps
         scores, loadings, eigenvals = nip.NIPALS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
-        transformed_image_set += image_means_row-0.001
+        transformed_image_set += image_means_row
         #transformed_image_set = add_mean(transformed_image_set,image_means)
         principal_components = loadings.T
 
