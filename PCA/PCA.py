@@ -5,7 +5,7 @@ import NIPALS_MGS as ngs
 import NIPALS_torch as nip_gpu
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
-
+import PCA_SVD as SVD
 
 
 def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6):
@@ -84,7 +84,14 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         transformed_image_set += image_means_row - 0.001
         principal_components = loadings.T
 
-
+    elif analysis_type == "SVD_Numpy":
+        image_means = np.mean(image_set,axis=1,keepdims=True)
+        image_set -= image_means
+        Scores, Components, Evalues  = SVD.PCA_SVD(image_set, num_components)
+        principal_components = Components.T
+        #reduced_set = np.dot(principal_components,Scores.T)
+        transformed_image_set = np.dot(Scores,principal_components)
+        print(np.shape(transformed_image_set))
     return transformed_image_set, principal_components
 
 
