@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def PCA_SVD(X, num_components):
     u, s, vh = np.linalg.svd(X, full_matrices=False)
     samples = np.shape(X)[0]

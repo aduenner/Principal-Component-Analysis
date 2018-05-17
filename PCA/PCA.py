@@ -91,7 +91,7 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         principal_components = Components.T
         #reduced_set = np.dot(principal_components,Scores.T)
         transformed_image_set = np.dot(Scores,principal_components)
-        
+
     return transformed_image_set, principal_components
 
 

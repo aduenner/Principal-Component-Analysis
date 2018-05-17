@@ -8,6 +8,8 @@ Created on Sat May 12 14:40:48 2018
 import matplotlib.pyplot as plt
 from PCA import *
 import numpy as np
+import timeit functools
+
 
 def datatest(imageset):
     plot_images(imageset)
