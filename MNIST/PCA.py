@@ -5,9 +5,8 @@ import NIPALS_MGS as ngs
 import NIPALS_torch as nip_gpu
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
+import bm3d
 import time
-
-
 
 def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6):
     """ Calculate principal components of an image set and and return the image as represented by its principal components.
@@ -34,16 +33,17 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     transformed_image_set = np.zeros((images,pixels))
     principal_components = np.zeros((images,num_components))
 
+    _start = time.time()
+
     if analysis_type == "Simultaneous_Iteration":
-        image_means = np.mean(image_set,axis=1,keepdims=True)
+        image_means = np.mean(image_set, axis=0, keepdims=True)
         image_set -= image_means
-        # image_set_covariance = np.cov(image_set.T)
+        image_set += 0.001
         image_set_covariance = np.dot(image_set.T,image_set)/(np.shape(image_set)[1]-1)
         eigenvectors,evalues_,_ = spi.SimulIter(image_set_covariance,neigs=num_components,maxiters=100,tol=1e-6)
         reduced_set = np.dot(image_set, eigenvectors)
         principal_components = eigenvectors.T
-        transformed_image_set = np.dot(reduced_set, principal_components)+image_means
-
+        transformed_image_set = np.dot(reduced_set, principal_components)+image_means - 0.001
 
     elif analysis_type == "Full_SVD":
         builtin_pca = PCA(num_components)
@@ -52,45 +52,41 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         imageset_reduced = np.dot(image_set - builtin_pca.mean_,builtin_pca.components_.T)
         transformed_image_set = np.dot(imageset_reduced, principal_components) + builtin_pca.mean_
 
-    elif analysis_type == "Incremental_PCA":
-        incremental_pca = IncrementalPCA(num_components)
-        incremental_pca.fit(image_set)
-        principal_components = incremental_pca.components_
-        imageset_reduced = np.dot(image_set - incremental_pca.mean_, incremental_pca.components_.T)
-        transformed_image_set = np.dot(imageset_reduced, principal_components) +incremental_pca.mean_
-
     elif analysis_type == "NIPALS":
-        image_means=np.mean(image_set, axis=1,keepdims=True)
-        image_set -= image_means
-        _start = time.time()
+        image_means_row=np.mean(image_set, axis=0, keepdims=True)
+        image_set -= image_means_row
+        image_set += 0.001
         scores, loadings, eigenvals = nip.NIPALS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
-        _elapsed = time.time() - _start
-        #transformed_image_set = add_mean(transformed_image_set,image_means)
         principal_components = loadings.T
 
-    elif analysis_type == "NIPALS_GS":
-        image_means=np.mean(image_set, axis=1,keepdims=True)
-        image_set -= image_means
-        scores, loadings, eigenvals = ngs.NIPAL_GS(image_set,num_components,stop_condition)
+    elif analysis_type == "NIPALS_GS_GPU":
+        image_means_row = np.mean(image_set, axis=0, keepdims=True)
+        image_set -= image_means_row
+        image_set += 0.001
+        scores, loadings, eigenvals = ngs.NIPALS_GS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
-        transformed_image_set+=image_means
+        transformed_image_set+=image_means_row - 0.001
         principal_components = loadings.T
 
     elif analysis_type == "NIPALS_GPU":
-        image_means = np.mean(image_set, axis=1, keepdims=True)
-        image_set -= image_means
-        _start = time.time()
+        image_means_row = np.mean(image_set, axis=0, keepdims=True)
+        image_set -= image_means_row
+        image_set += 0.001
         scores, loadings, eigenvals = nip_gpu.NIPALS(image_set, num_components, stop_condition)
-        _elapsed = time.time() - _start
         transformed_image_set = np.dot(scores, loadings.T)
-        transformed_image_set += image_means
+        transformed_image_set += image_means_row - 0.001
         principal_components = loadings.T
 
-    transformed_image_set = transformed_image_set.reshape(original_shape)
-    print(_elapsed)
+    elif analysis_type == "None":
 
-    return transformed_image_set, principal_components
+        transformed_image_set[:] = image_set[:]
+
+    _elapsed = time.time() - _start
+
+    transformed_image_set = transformed_image_set.reshape(original_shape)
+
+    return transformed_image_set, principal_components, _elapsed
 
 
 def pca_transform_set(OriginalSet, EigenVectors, Mean):

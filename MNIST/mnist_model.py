@@ -109,7 +109,7 @@ def train(training_data, validation_data, training_labels, validation_labels, n_
             batch_loss.backward()
             optimizer.step()
 
-            running_loss += batch_loss.data[0]
+            running_loss += batch_loss.item()
        
         print('\nEpoch: [%d]\n\tLoss: %.6f Elapsed Time: %.6fs' %
               (epoch + 1, running_loss / n_training, time.time() - epoch_start))
@@ -136,21 +136,22 @@ def train(training_data, validation_data, training_labels, validation_labels, n_
         batch_outputs = net(batch_inputs)
 
         batch_loss = criterion(batch_outputs, batch_labels)
-        test_loss += batch_loss.data[0]
+        test_loss += batch_loss.item()
 
         _, batch_predictions = torch.max(batch_outputs.data, 1)
         batch_correct = (batch_predictions == batch_labels.data).squeeze()
 
         for i in range(batch_size):
 
-            current_label = batch_labels.data[i]
+            current_label = batch_labels.data[i].item()
 
             class_total[current_label] += 1
-            class_correct[current_label] += batch_correct[i]
+            class_correct[current_label] += batch_correct[i].item()
 
     print("Finished Testing in %.6fs" % (time.time() - validation_start))
 
     print("\nAverage Loss per Sample: %.6f" % (test_loss / n_validation))
+
     print("Overall Accuracy: %.6f %%" % (sum(class_correct) / float(n_validation)))
 
     print("\nClass by Class Accuracy: ")
@@ -192,7 +193,7 @@ def iterate_batches(inputs, targets, batch_size, shuffle=True):
 
             yield inputs[batch_indices], targets[batch_indices]
 
-def eval_(inputs, targets, n_classes, n_dims, class_names, load_params, batch_size=100):
+def eval_(inputs, targets, n_classes, n_dims, class_names, load_params, batch_size=100, verbose=False):
 
     assert(len(inputs) == len(targets))
 
@@ -225,32 +226,36 @@ def eval_(inputs, targets, n_classes, n_dims, class_names, load_params, batch_si
         batch_outputs = net(batch_inputs)
 
         batch_loss = criterion(batch_outputs, batch_labels)
-        test_loss += batch_loss.data[0]
+        test_loss += batch_loss.item()
 
         _, batch_predictions = torch.max(batch_outputs.data, 1)
         batch_correct = (batch_predictions == batch_labels.data).squeeze()
 
         for i in range(batch_size):
 
-            current_label = batch_labels.data[i]
+            current_label = batch_labels.data[i].item()
 
             class_total[current_label] += 1
-            class_correct[current_label] += batch_correct[i]
+            class_correct[current_label] += batch_correct[i].item()
 
-    print("Finished Testing in %.6fs" % (time.time() - testing_start))
+    if verbose:
 
-    print("\nAverage Loss per Sample: %.6f" % (test_loss / n_testing))
-    print("Overall Accuracy: %.6f %%" % (sum(class_correct) / float(n_testing)))
+        print("Finished Testing in %.6fs" % (time.time() - testing_start))
 
-    print("\nClass by Class Accuracy: ")
-    for i in range(n_classes):
-        print('\tAccuracy of class %5s: %2f %%' % (
-              class_names[i], 100 * class_correct[i] / float(class_total[i])))
+        print("\nAverage Loss per Sample: %.6f" % (test_loss / n_testing))
+        print("Overall Accuracy: %.6f %%" % (sum(class_correct) / float(n_testing)))
+
+        print("\nClass by Class Accuracy: ")
+        for i in range(n_classes):
+            print('\tAccuracy of class %5s: %2f %%' % (
+                  class_names[i], 100 * class_correct[i] / float(class_total[i])))
 
     overall_accuracy = sum(class_correct) / float(n_testing)
     class_accuracies = list(class_correct[i] / float(class_total[i]) for i in range(n_classes))
+    overall_loss = test_loss / float(n_testing)
 
-    return overall_accuracy, class_accuracies
+
+    return overall_accuracy, class_accuracies, overall_loss
 
 
 if __name__ == "__main__":
