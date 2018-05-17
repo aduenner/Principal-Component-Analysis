@@ -31,7 +31,7 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     principal_components = np.zeros((images,num_components))
 
     if analysis_type == "Simultaneous_Iteration":
-        image_means = np.mean(image_set,axis=0,keepdims=True)
+        image_means = np.mean(image_set, axis=0, keepdims=True)
         image_set -= image_means
         image_set += 0.001
         # image_set_covariance = np.cov(image_set.T)
@@ -57,9 +57,9 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         transformed_image_set = np.dot(imageset_reduced, principal_components) +incremental_pca.mean_
 
     elif analysis_type == "NIPALS":
-        image_means_row=np.mean(image_set, axis=0,keepdims=True)
+        image_means_row=np.mean(image_set, axis=0, keepdims=True)
         image_set -= image_means_row
-        image_set +=0.001
+        image_set += 0.001
         scores, loadings, eigenvals = nip.NIPALS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
         transformed_image_set += image_means_row-0.001
@@ -72,7 +72,7 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         image_set += 0.001
         scores, loadings, eigenvals = ngs.NIPALS_GS(image_set,num_components,stop_condition)
         transformed_image_set = np.dot(scores,loadings.T)
-        transformed_image_set+=image_means_row-0.001
+        transformed_image_set+=image_means_row - 0.001
         principal_components = loadings.T
 
     elif analysis_type == "NIPALS_GPU":
@@ -81,7 +81,7 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
         image_set += 0.001
         scores, loadings, eigenvals = nip_gpu.NIPALS(image_set, num_components, stop_condition)
         transformed_image_set = np.dot(scores, loadings.T)
-        transformed_image_set += image_means_row-0.001
+        transformed_image_set += image_means_row - 0.001
         principal_components = loadings.T
 
 
