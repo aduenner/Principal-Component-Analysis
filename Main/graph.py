@@ -165,20 +165,23 @@ def graph_principal_components(noise_levels, metric="Accuracy"):
         ax = plt.gca()
 
         if metric != "Error Rate":
-            ax.set_ylabel("Mean " + metric , fontsize=14)
+            ax.set_ylabel(r"$\mu_{" + metric + r"}$" , fontsize=14)
         else:
             ax.set_ylabel(metric , fontsize=14)
 
-        ax.set_xlabel("Number of Principal Components", fontsize=14)
+        # ax.set_xlabel("Number of Principal Components", fontsize=14)
+        ax.set_xlabel(r"$n_{components}$", fontsize=14)
 
         max_yticks = 5
         yloc = plt.MaxNLocator(max_yticks, prune="both")
         ax.yaxis.set_major_locator(yloc)
 
-        ax.set_title(metric + " vs. Principal Component Count", fontsize=16)
+        # ax.set_title(metric + " vs. Principal Component Count", fontsize=16)
+        ax.set_title(metric + r" vs. $n_{components}$ || $\mu_{loss}=$" + str(noise_level), fontsize=16)
 
         plt.legend(labels, title="PCA Type")
         plt.tight_layout()
+        # plt.savefig(os.path.join(SAVE_DIR, "Loss" + str(noise_level) + "_" + metric ".png"))
         plt.savefig(os.path.join(SAVE_DIR, "Loss_" + str(noise_level) + "_" + metric + " vs. Principal Component Count"+ ".png"))
 
         plt.close('all')
@@ -490,24 +493,24 @@ if __name__ == "__main__":
 
     noise_levels = range(8)
 
-    graph_error_rate()
-    graph_losses()
+    # graph_error_rate()
+    # graph_losses()
 
     graph_principal_components(noise_levels, metric="Accuracy")
     graph_principal_components(noise_levels, metric="MSE")
     graph_principal_components(noise_levels, metric="Loss")
 
-    graph_principal_components_noises(noise_levels, metric="Accuracy")
-    graph_principal_components_noises(noise_levels, metric="MSE")
-    graph_principal_components_noises(noise_levels, metric="Loss")
+    # graph_principal_components_noises(noise_levels, metric="Accuracy")
+    # graph_principal_components_noises(noise_levels, metric="MSE")
+    # graph_principal_components_noises(noise_levels, metric="Loss")
   
    
-    graph_NIPALS_error()
-    graph_NIPALS_loss()
+    # graph_NIPALS_error()
+    # graph_NIPALS_loss()
 
-    graph_runtimes_components()
-    graph_runtimes_images()
+    # graph_runtimes_components()
+    # graph_runtimes_images()
 
-    graph_GPU_speedup()
+    # graph_GPU_speedup()
 
 
