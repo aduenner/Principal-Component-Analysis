@@ -28,15 +28,15 @@ CLASS_NAMES = list(str(i) for i in range(10))
 SHAPE = (28, 28)
 N_DIMS = 1
 
-# NOISE_LEVELS = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0]
-NOISE_LEVELS = [50.0, 50.0, 50.0]
-# DENOISE_TYPES = ["None", "Full_SVD", "Simultaneous_Iteration", "NIPALS_GPU"]
-DENOISE_TYPES = ["SVD", "Simultaneous_Iteration", "NIPALS", "NIPALS_GPU"]
-# COMPONENT_NUMBERS = [10, 20, 30, 40, 50, 60, 80, 100, 120, 140, 160, 200, 240, 280, 320, 360, 440, 520, 600, 680]
-COMPONENT_NUMBERS = [10, 20, 30, 40, 50, 60, 80, 100, 120, 140, 160, 200, 240, 280, 320, 360, 400]
+NOISE_LEVELS = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0]
+# NOISE_LEVELS = [50.0, 50.0, 50.0]
+DENOISE_TYPES = ["None", "Full_SVD", "Simultaneous_Iteration", "NIPALS_GPU"]
+# DENOISE_TYPES = ["SVD", "Simultaneous_Iteration", "NIPALS", "NIPALS_GPU"]
+COMPONENT_NUMBERS = [10, 20, 30, 40, 50, 60, 80, 100, 120, 140, 160, 200, 240, 280, 320, 360, 440, 520, 600, 680]
+# COMPONENT_NUMBERS = [10, 20, 30, 40, 50, 60, 80, 100, 120, 140, 160, 200, 240, 280, 320, 360, 400]
 DATASETS = ["set1"]
-# CLASSIFIERS = ["cs1", "cs2", "cs3", "cs4", "cs5"]
-CLASSIFIERS = ["cs1"]
+CLASSIFIERS = ["cs1", "cs2", "cs3", "cs4", "cs5"]
+# CLASSIFIERS = ["cs1"]
 
 N_NOISE_LEVELS = len(NOISE_LEVELS)
 N_DENOISE_TYPES = len(DENOISE_TYPES)
@@ -160,8 +160,6 @@ def run_full_set():
 
                 print("Method Time: " + str(float(time_elapsed)))
 
-                new_times[j, k, l] = time_elapsed
-
                 for i in range(N_CLASSIFIERS):
 
                     classifier = CLASSIFIERS[i]
@@ -249,7 +247,9 @@ def run_bm3d():
 
 if __name__ == "__main__":   
 
-   
     # train_models()
-    run_full_set()
     # test_accuracies()
+    # run_full_set()
+
+    pass
+   

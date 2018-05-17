@@ -15,6 +15,7 @@ import csv
 import gen_dataset
 import gen_images
 
+# Simple three layer Convolutional Neural Network
 class Net(nn.Module):   
 
     def __init__(self, n_classes, n_dims=1):
@@ -260,76 +261,5 @@ def eval_(inputs, targets, n_classes, n_dims, class_names, load_params, batch_si
 
 if __name__ == "__main__":
 
-    import PCA
-
-    n_classes = 10
-    class_names = list(str(i) for i in range(10))
-
-    data_file = "original_images.npy"
-    label_file = "original_labels.npy"
-
-    shape = (28, 28)
-    n_dims = 1
-
-    data_dir = "set1"
-
-    training_data, test_data, training_labels, test_labels = gen_dataset.load_dataset(data_dir=data_dir)
-
-    training_data = np.array(training_data, dtype="float32")
-    test_data = np.array(test_data, dtype="float32")
-    
-    denoise_types = ["Simultaneous_Iteration", "Full_SVD", "Incremental_PCA", "NIPALS"]
-    component_values = [10, 20, 50, 100, 200]
-
-
-    with torch.cuda.device(1):
-
-        # train(training_data, test_data, training_labels, test_labels, n_classes, n_dims, class_names, save_params="model_params_" + data_dir + ".pt")
-
-        for val in [0.0, 5.0, 10.0, 20.0, 50.0]:
-
-            print("\n===========================================================\n")
-            print("Evaluating model on noised test images...\n")
-            print("Noise Level: " + str(float(val)))
-
-            if val == 0.0:
-
-                noise_images_test = test_data
-
-            else:
-
-                # noise_images_training = np.load(os.path.join(data_dir, "noised_data_training_" + str(int(val)) + ".npy")).reshape(-1, 1, 28, 28)
-                noise_images_test = np.load(os.path.join(data_dir, "noised_data_test_" + str(int(val)) + ".npy")).reshape(-1, 1, 28, 28)
-
-                # noise_images_training = np.array(noise_images_training, dtype="float32")
-                noise_images_test = np.array(noise_images_test, dtype="float32")
-
-            a, _ = eval_(noise_images_test, test_labels, n_classes, n_dims, class_names, "model_params_" + data_dir + ".pt")
-            print(a)
-            # if val != 0.0:
-
-            #     print("\n-----------------------------------------------\n")
-            #     print("Evaluating model on denoised test images...\n")
-
-            #     n_methods = len(denoise_types)
-            #     n_tests = len(component_values)
-
-            #     ret = np.zeros((n_methods, n_tests), dtype="float64")
-
-            #     for j in range(n_methods):
-
-            #         for k in range(n_tests):
-
-            #             denoised_images_test, _ = PCA.pca_transform(noise_images_test, component_values[k], denoise_types[j])
-                        
-            #             denoised_images_test = np.array(denoised_images_test, dtype="float32")
-
-            #             overall_accuracy, _ = eval_(denoised_images_test, test_labels, n_classes, n_dims, class_names, "model_params_" + data_dir + ".pt")
-
-            #             ret[j, k] = overall_accuracy
-
-            #     np.savetxt(str(float(val)) + ".csv", ret, delimiter=",")
-
-
-
+    pass
 
