@@ -5,7 +5,6 @@ import NIPALS_MGS as ngs
 import NIPALS_torch as nip_gpu
 from sklearn.decomposition import PCA
 from sklearn.decomposition import IncrementalPCA
-import bm3d
 import time
 import PCA_SVD as SVD
 

@@ -10,7 +10,7 @@ def NIPALS(X, num_components, threshold=1e-6, max_iter=50):
 
     for i in range(num_components):
 
-        old_eigen = 0
+        old_lambda = 0
         t = X[:,i]
 
         for j in range(max_iter):
@@ -27,17 +27,17 @@ def NIPALS(X, num_components, threshold=1e-6, max_iter=50):
             t /= np.dot(p.T,p)
             Scores[:, i] = t
       
-            new_eigen = np.dot(t.T,t)
+            new_lambda = np.dot(t.T,t)
 
             # Add score vector to matrix of score vectors
-            Eigenvals[i] = new_eigen
+            Eigenvals[i] = new_lambda
 
             # Check for convergence
-            diff = np.abs(old_eigen - new_eigen)
+            diff = np.abs(old_lambda - new_lambda)
             if diff < threshold:
                 break
 
-            old_eigen = new_eigen
+            old_lambda = new_lambda
             
         # Update Xh
         X -= np.dot(t[:,np.newaxis], p[np.newaxis,:])
