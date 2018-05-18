@@ -22,46 +22,46 @@ def meantest(imageset):
 
 def simuliter(imageset, ncomponents):
     transformed_set, components, _ = pca_transform(imageset, ncomponents, 'Simultaneous_Iteration')
-    plot_images(transformed_set)
-    plot_images(components, min(np.shape(components)[0],16))
+    plot_images(transformed_set,'simuliter images')
+    plot_images(components, 'simuliter components',min(np.shape(components)[0],16))
     return transformed_set, components
 
 
 def fullsvd(imageset, ncomponents):
     transformed_set, components, _ = pca_transform(imageset, ncomponents, 'Full_SVD')
-    plot_images(transformed_set,1)
-    plot_images(components, min(np.shape(components)[0],4))
+    plot_images(transformed_set,'fullsvd images')
+    plot_images(components, 'fullsvd components',min(np.shape(components)[0],16))
     return transformed_set, components
 
 
 def incremental_pca(imageset, ncomponents):
     transformed_set, components, _ = pca_transform(imageset, ncomponents, 'Incremental_PCA')
-    plot_images(transformed_set)
-    plot_images(components, min(np.shape(components)[0],16))
+    plot_images(transformed_set,'incremental pca images')
+    plot_images(components, 'incremental pca components',min(np.shape(components)[0],16))
     return transformed_set, components
 
 def nipals(imageset, ncomponents):
     transformed_set, components, _ = pca_transform(imageset, ncomponents, 'NIPALS')
-    plot_images(transformed_set)
-    plot_images(components,min(np.shape(components)[0],16))
+    plot_images(transformed_set,'nipals images'),
+    plot_images(components,'nipals components',min(np.shape(components)[0],16))
     return transformed_set, components
 
 def nipalsgs(imageset, ncomponents):
     transformed_set, components, _ = pca_transform(imageset, ncomponents, 'NIPALS_GS')
-    plot_images(transformed_set)
-    plot_images(components,min(np.shape(components)[0],16))
+    plot_images(transformed_set,'nipalsgs images')
+    plot_images(components,'nipalsgs components',min(np.shape(components)[0],16))
     return transformed_set, components
 
 def nipalsgpu(imageset, ncomponents):
     transformed_set, components, _ = pca_transform(imageset, ncomponents, 'NIPALS_GPU')
-    plot_images(transformed_set)
-    plot_images(components,min(np.shape(components)[0],16))
+    plot_images(transformed_set,'nipalsgpu images')
+    plot_images(components,'nipalsgpu components',min(np.shape(components)[0],16))
     return transformed_set, components
 
 def svdnumpy(imageset, ncomponents):
-    transformed_set, components, _ = pca_transform(imageset, ncomponents, 'SVD_Numpy')
-    plot_images(transformed_set)
-    plot_images(components,min(np.shape(components)[0],16))
+    transformed_set, components, _ = pca_transform(imageset, ncomponents, 'SVD')
+    plot_images(transformed_set,'svdnumpy images')
+    plot_images(components,'svdnumpy components',min(np.shape(components)[0],16))
     return transformed_set,components
 
 def extract_image(imgset, shape, index):
@@ -77,12 +77,13 @@ def extract_image(imgset, shape, index):
     return image_out
 
 
-def plot_images(imageset, num_images=4):
+def plot_images(imageset, Method, num_images=4):
     shape = int(np.ceil(np.sqrt(np.shape(imageset)[1])))
     numrows = int(np.ceil(np.sqrt(num_images)))
     for i in range(num_images):
         plt.subplot(numrows, numrows, i+1)
         plt.imshow(extract_image(imageset,shape,i),cmap='gray')
         plt.axis('off')
+        plt.title(Method)
 
     plt.show()

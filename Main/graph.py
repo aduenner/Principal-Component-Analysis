@@ -181,8 +181,8 @@ def graph_principal_components(noise_levels, metric="Accuracy"):
 
         plt.legend(labels, title="PCA Type")
         plt.tight_layout()
-        # plt.savefig(os.path.join(SAVE_DIR, "Loss" + str(noise_level) + "_" + metric ".png"))
-        plt.savefig(os.path.join(SAVE_DIR, "Loss_" + str(noise_level) + "_" + metric + " vs. Principal Component Count"+ ".png"))
+        plt.savefig(os.path.join(SAVE_DIR, "Noise" + str(noise_level) + "_" + metric + ".png"))
+        # plt.savefig(os.path.join(SAVE_DIR, "Noise_" + str(noise_level) + "_" + metric + " vs. Principal Component Count"+ ".png"))
 
         plt.close('all')
 
@@ -242,18 +242,21 @@ def graph_principal_components_noises(noise_levels, metric):
     ax = plt.gca()
 
     if metric != "Error Rate":
-        ax.set_ylabel("Mean " + metric , fontsize=14)
+        ax.set_ylabel(r"$\mu_{" + metric + r"}$" , fontsize=14)
+    
     else:
         ax.set_ylabel(metric , fontsize=14)
 
-    ax.set_xlabel("Number of Principal Components", fontsize=14)
-    
+    # ax.set_xlabel("Number of Principal Components", fontsize=14)
+    ax.set_xlabel(r"$n_{components}$", fontsize=14)
+
     max_yticks = 5
     yloc = plt.MaxNLocator(max_yticks, prune="both")
     ax.yaxis.set_major_locator(yloc)
     
-    ax.set_title(metric + " vs. Principal Component Count", fontsize=16)
-    plt.legend(labels, title="Noise Magnitude", loc='center left', bbox_to_anchor=(1, 0.5))
+    ax.set_title(metric + r" vs. $n_{components}$", fontsize=16)
+
+    plt.legend(labels, title=r'$\mu{noise}$', loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
     plt.savefig(os.path.join(SAVE_DIR, metric + " vs. Principal Component Count"+ ".png"))
     # plt.show()   
@@ -266,9 +269,10 @@ def graph_NIPALS_error():
     noise_densities = old_data[1:, 0]
     n_datasets = old_data.shape[1] - 1
 
-    labels = ["None", "NIPALS_GPU"]
+    labels = DENOISE_TYPES
 
-    old_data = np.max(old_data[1:, 1:], axis=1)
+
+    old_data = np.mean(old_data[1:, 1:], axis=1)
 
     error_rates = 1.0 - old_data
 
@@ -286,23 +290,27 @@ def graph_NIPALS_error():
 
     data = np.load(os.path.join(RESULTS_DIR, "denoised_accuracies.npy"))
 
-    new_error_rates = list()
+    for j in range(4):
 
-    for i in range(8):
+        if j == 0:
 
-        new_error_rates.append(np.max(data[:, i, :, 3], axis=0))
+            continue
 
-    new_error_rates = np.array(new_error_rates, dtype="float64")
-    new_error_rates = np.max(new_error_rates, axis=1)
-    new_error_rates = 1 - new_error_rates
+        new_accuracies = list()
 
-    ax = sns.pointplot(x=noise_densities, 
-                   y=new_error_rates, 
-                   linestyles='-', 
-                   color=colours[3], 
-                   ci=None, 
-                   scale=0.5)
+        for i in range(8):
 
+            new_accuracies.append(np.max(data[:, i, :, j], axis=0))
+
+        new_accuracies = 1 - np.array(new_accuracies, dtype="float64")
+        new_accuracies = np.mean(new_accuracies, axis=1)
+
+        ax = sns.pointplot(x=noise_densities, 
+                       y=new_accuracies, 
+                       linestyles='-', 
+                       color=colours[j], 
+                       ci=None, 
+                       scale=0.5)
     ax.set_ylabel("Error Rate", fontsize=14)
     ax.set_xlabel(r"Magnitude of Noise Mask", fontsize=14)
 
@@ -321,9 +329,9 @@ def graph_NIPALS_loss():
     noise_densities = old_data[1:, 0]
     n_datasets = old_data.shape[1] - 1
 
-    labels = ["None", "NIPALS_GPU"]
+    labels = DENOISE_TYPES
 
-    old_data = np.min(old_data[1:, 1:], axis=1)
+    old_data = np.mean(old_data[1:, 1:], axis=1)
 
     accuracies = old_data
 
@@ -340,26 +348,32 @@ def graph_NIPALS_loss():
 
     data = np.load(os.path.join(RESULTS_DIR, "denoised_losses.npy"))
 
-    new_accuracies = list()
+    for j in range(4):
 
-    for i in range(8):
+        if j == 0:
 
-        new_accuracies.append(np.min(data[:, i, :, 3], axis=0))
+            continue
 
-    new_accuracies = np.array(new_accuracies, dtype="float64")
-    new_accuracies = np.min(new_accuracies, axis=1)
+        new_accuracies = list()
 
-    ax = sns.pointplot(x=noise_densities, 
-                   y=new_accuracies, 
-                   linestyles='-', 
-                   color=colours[3], 
-                   ci=None, 
-                   scale=0.5)
+        for i in range(8):
+
+            new_accuracies.append(np.min(data[:, i, :, j], axis=0))
+
+        new_accuracies = np.array(new_accuracies, dtype="float64")
+        new_accuracies = np.mean(new_accuracies, axis=1)
+
+        ax = sns.pointplot(x=noise_densities, 
+                       y=new_accuracies, 
+                       linestyles='-', 
+                       color=colours[j], 
+                       ci=None, 
+                       scale=0.5)
 
     ax.set_ylabel("Loss", fontsize=14)
     ax.set_xlabel(r"Magnitude of Noise Mask", fontsize=14)
 
-    ax.set_title("Effect of PCA on Loss", fontsize=16)
+    ax.set_title("Selected PCA vs. Loss", fontsize=16)
 
     plt.legend(labels, title="PCA Type")
     plt.tight_layout()
@@ -496,17 +510,17 @@ if __name__ == "__main__":
     # graph_error_rate()
     # graph_losses()
 
-    graph_principal_components(noise_levels, metric="Accuracy")
-    graph_principal_components(noise_levels, metric="MSE")
-    graph_principal_components(noise_levels, metric="Loss")
+    # graph_principal_components(noise_levels, metric="Accuracy")
+    # graph_principal_components(noise_levels, metric="MSE")
+    # graph_principal_components(noise_levels, metric="Loss")
 
     # graph_principal_components_noises(noise_levels, metric="Accuracy")
     # graph_principal_components_noises(noise_levels, metric="MSE")
     # graph_principal_components_noises(noise_levels, metric="Loss")
   
    
-    # graph_NIPALS_error()
-    # graph_NIPALS_loss()
+    graph_NIPALS_error()
+    graph_NIPALS_loss()
 
     # graph_runtimes_components()
     # graph_runtimes_images()

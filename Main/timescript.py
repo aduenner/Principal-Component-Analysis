@@ -13,6 +13,11 @@ import functools
 from memory_profiler import memory_usage
 import torch
 
+import time
+
+import i_numba as inb
+import i_numpy as inp
+
 CONST_COMPONENTS = 784
 CONST_SET = np.load('set1/noised_data_test_50.npy')
 CONST_SET = np.asarray(CONST_SET, dtype="float32") / 255.0
@@ -28,9 +33,6 @@ def numba_compare(ncomponents, data_set):
     t_svdnumpy  = timeit.timeit(svdnumpy,number=5)
 
     return t_simuliter, t_svdnumpy, t_nipals
-
-
-def nipals():
 
 def gpu_compare_core(ncomponents, image_set):
 
@@ -57,9 +59,6 @@ def gpu_compare(n_images = 25000, checklist=[10, 20, 30, 40, 50, 60]):
             n_components = checklist[i]
         
             results[i,:] = gpu_compare(components, image_set)
-    #     np.save('gpu_results',results)
-
-
 
 
 with torch.cuda.device(0):

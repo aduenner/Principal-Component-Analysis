@@ -1,10 +1,6 @@
 import numpy as np
-import torch
 
-import numpy as np
-import torch
-
-def NIPALS(X, num_components, threshold=1e-6, max_iter=1000):
+def NIPALS(X, num_components, threshold=1e-6, max_iter=50):
 
     Scores = np.zeros((np.shape(X)[0],num_components))
     Loadings = np.zeros([np.shape(X)[1],num_components])
@@ -13,7 +9,7 @@ def NIPALS(X, num_components, threshold=1e-6, max_iter=1000):
 
     for i in range(num_components):
 
-        old_lambda = 0
+        old_eigen = 0
         t = X[:,i]
 
         for j in range(max_iter):
@@ -30,28 +26,19 @@ def NIPALS(X, num_components, threshold=1e-6, max_iter=1000):
             t /= np.dot(p.T,p)
             Scores[:, i] = t
       
-            new_lambda = np.dot(t.T,t)
+            new_eigen = np.dot(t.T,t)
 
             # Add score vector to matrix of score vectors
-            Eigenvals[i] = new_lambda
+            Eigenvals[i] = new_eigen
 
             # Check for convergence
-            diff = np.abs(old_lambda - new_lambda)
-
-            if diff < threshold * new_lambda:
+            diff = np.abs(old_eigen - new_eigen)
+            if diff < threshold:
                 break
 
-                print(j)
-
-            old_lambda = new_lambda
+            old_eigen = new_eigen
             
         # Update Xh
         X -= np.dot(t[:,np.newaxis], p[np.newaxis,:])
 
     return Scores, Loadings, Eigenvals
-
-
-
-
-
-
