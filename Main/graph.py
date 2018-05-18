@@ -379,88 +379,88 @@ def graph_NIPALS_loss():
     plt.tight_layout()
     plt.savefig(os.path.join(SAVE_DIR, 'NIPALS Loss.png'))
    
-def graph_runtimes_components():
+# def graph_runtimes_components():
 
-    data = np.load(os.path.join(RESULTS_DIR, "time_results.npy"))
+#     data = np.load(os.path.join(RESULTS_DIR, "time_results.npy"))
 
-    sns.set(context='notebook', style='darkgrid', font="serif")
-    colours = sns.color_palette(n_colors=6)
-    labels = ["Full_SVD", "Simultaneous_Iteration", "NIPALS"]
-    colour_indices = [1, 2, 4]
-    plt.figure(figsize=(7, 4), dpi=240)
+#     sns.set(context='notebook', style='darkgrid', font="serif")
+#     colours = sns.color_palette(n_colors=6)
+#     labels = ["Full_SVD", "Simultaneous_Iteration", "NIPALS"]
+#     colour_indices = [1, 2, 4]
+#     plt.figure(figsize=(7, 4), dpi=240)
 
-    for l in range(N_DENOISE_TYPES):
+#     for l in range(N_DENOISE_TYPES):
 
-        if l == 0:
+#         if l == 0:
 
-            continue      
+#             continue      
 
-        plt.plot(COMPONENT_NUMBERS[:7], 
-                 data[:7, l - 1] / 5, 
-                 color=colours[colour_indices[l - 1]],
-                 linestyle='-',
-                 linewidth=1,
-                 marker='o',
-                 markersize=4)
-    ax = plt.gca()
+#         plt.plot(COMPONENT_NUMBERS[:7], 
+#                  data[:7, l - 1] / 5, 
+#                  color=colours[colour_indices[l - 1]],
+#                  linestyle='-',
+#                  linewidth=1,
+#                  marker='o',
+#                  markersize=4)
+#     ax = plt.gca()
 
-    ax.set_ylabel("Runtime (seconds)" , fontsize=14)
+#     ax.set_ylabel("Runtime (seconds)" , fontsize=14)
 
-    ax.set_xlabel("Number of Principal Components", fontsize=14)
+#     ax.set_xlabel("Number of Principal Components", fontsize=14)
   
-    max_yticks = 5
-    yloc = plt.MaxNLocator(max_yticks, prune="both")
-    ax.yaxis.set_major_locator(yloc)
+#     max_yticks = 5
+#     yloc = plt.MaxNLocator(max_yticks, prune="both")
+#     ax.yaxis.set_major_locator(yloc)
     
-    ax.set_title("Runtime vs. Principal Component Count", fontsize=16)
-    plt.legend(labels, title="PCA Type", loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.tight_layout()
-    plt.savefig(os.path.join(SAVE_DIR, "Runtime vs. Principal Component Count"+ ".png"))
-    # plt.show()   
-    plt.close('all')
+#     ax.set_title("Runtime vs. Principal Component Count", fontsize=16)
+#     plt.legend(labels, title="PCA Type", loc='center left', bbox_to_anchor=(1, 0.5))
+#     plt.tight_layout()
+#     plt.savefig(os.path.join(SAVE_DIR, "Runtime vs. Principal Component Count"+ ".png"))
+#     # plt.show()   
+#     plt.close('all')
 
-def graph_runtimes_images():
+# def graph_runtimes_images():
 
-    data = np.load(os.path.join(RESULTS_DIR, "new_results.npy"))
+#     data = np.load(os.path.join(RESULTS_DIR, "new_results.npy"))
 
-    vals = [10000, 20000, 30000, 40000, 50000, 75000, 100000, 150000, 200000]
-    sns.set(context='notebook', style='darkgrid', font="serif")
+#     vals = [10000, 20000, 30000, 40000, 50000, 75000, 100000, 150000, 200000]
+#     sns.set(context='notebook', style='darkgrid', font="serif")
  
-    colours = sns.color_palette(n_colors=6)
-    labels = ["Full_SVD", "Simultaneous_Iteration", "NIPALS"]
-    colour_indices = [1, 2, 4]
+#     colours = sns.color_palette(n_colors=6)
+#     labels = ["Full_SVD", "Simultaneous_Iteration", "NIPALS"]
+#     colour_indices = [1, 2, 4]
 
-    plt.figure(figsize=(7, 4), dpi=240)
+#     plt.figure(figsize=(7, 4), dpi=240)
 
-    for l in range(N_DENOISE_TYPES):
+#     for l in range(N_DENOISE_TYPES):
 
-        if l == 0:
+#         if l == 0:
 
-            continue
+#             continue
 
-        plt.plot(vals[:7], 
-                 data[:7, l - 1] / 5, 
-                 color=colours[colour_indices[l - 1]],
-                 linestyle='-',
-                 linewidth=1,
-                 marker='o',
-                 markersize=4)
-    ax = plt.gca()
+#         plt.plot(vals[:7], 
+#                  data[:7, l - 1] / 5, 
+#                  color=colours[colour_indices[l - 1]],
+#                  linestyle='-',
+#                  linewidth=1,
+#                  marker='o',
+#                  markersize=4)
+#     ax = plt.gca()
 
-    ax.set_ylabel("Runtime (seconds)" , fontsize=14)
+#     ax.set_ylabel("Runtime (seconds)" , fontsize=14)
 
-    ax.set_xlabel("Number of Images", fontsize=14)
+#     ax.set_xlabel("Number of Images", fontsize=14)
 
-    max_yticks = 5
-    yloc = plt.MaxNLocator(max_yticks, prune="both")
-    ax.yaxis.set_major_locator(yloc)
+#     max_yticks = 5
+#     yloc = plt.MaxNLocator(max_yticks, prune="both")
+#     ax.yaxis.set_major_locator(yloc)
  
-    ax.set_title("Runtime vs. Image Count", fontsize=16)
-    plt.legend(labels, title="PCA Type", loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.tight_layout()
-    plt.savefig(os.path.join(SAVE_DIR, "Runtime vs. Image Count"+ ".png"))
-    # plt.show()   
-    plt.close('all')
+#     ax.set_title("Runtime vs. Image Count", fontsize=16)
+#     plt.legend(labels, title="PCA Type", loc='center left', bbox_to_anchor=(1, 0.5))
+#     plt.tight_layout()
+#     plt.savefig(os.path.join(SAVE_DIR, "Runtime vs. Image Count"+ ".png"))
+#     # plt.show()   
+#     plt.close('all')
 
 def graph_GPU_speedup():
 

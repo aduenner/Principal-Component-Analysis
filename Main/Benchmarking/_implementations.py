@@ -1,8 +1,6 @@
 import numpy as np
 import time
 
-import PCA
-
 import i_numpy as inp
 import i_numba as inb
 
@@ -113,20 +111,20 @@ if __name__ == "__main__":
 
     dtype = "float32"
 
-    train_images = np.load('set1/noised_data_training_30.npy')
-    test_images = np.load('set1/noised_data_test_30.npy')
+    train_images = np.load('noised_data_training_30.npy')
+    test_images = np.load('noised_data_test_30.npy')
 
     dataset = np.concatenate((train_images, test_images), axis=0)
     dataset = np.array(dataset, dtype=dtype)
 
-    n_images = 1500
+    n_images = 10000
     n_pixels = 784
-    n_components = 10
+    n_components = 150
 
     data = dataset[:n_images, :n_pixels]
     minimal = dataset[:10, :10]
 
-    # Compile Numba Functions
+    # Quickly Compile Numba Functions
     benchmark_NIPALS(minimal.copy(), 1, False)
     benchmark_SVD(minimal.copy(), 1, False)
     benchmark_SI(minimal.copy(), 1, False)
