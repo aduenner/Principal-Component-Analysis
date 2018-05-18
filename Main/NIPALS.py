@@ -4,7 +4,7 @@ import torch
 import numpy as np
 import torch
 
-def NIPALS(X, num_components, threshold=1e-6, max_iter=1000):
+def NIPALS(X, num_components, threshold=1e-6, max_iter=200):
 
     Scores = np.zeros((np.shape(X)[0],num_components))
     Loadings = np.zeros([np.shape(X)[1],num_components])
@@ -38,10 +38,8 @@ def NIPALS(X, num_components, threshold=1e-6, max_iter=1000):
             # Check for convergence
             diff = np.abs(old_lambda - new_lambda)
 
-            if diff < threshold * new_lambda:
+            if diff < threshold:
                 break
-
-                print(j)
 
             old_lambda = new_lambda
             
