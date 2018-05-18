@@ -13,135 +13,53 @@ import functools
 from memory_profiler import memory_usage
 import torch
 
+CONST_COMPONENTS = 784
+CONST_SET = np.load('set1/noised_data_test_50.npy')
+CONST_SET = np.asarray(CONST_SET, dtype="float32") / 255.0
 
-num_components = 784 # Number of principal components
-num_images = 1000  # ber of images from set to test with
-image_set_full = np.load('NNHelper/noised_data_test_50.npy')
-image_set_int = image_set_full
-image_set = np.asarray(image_set_int,dtype=np.float32)/255.0
-reduced_set = image_set[:num_images]
+def numba_compare(ncomponents, data_set):
 
-# image_set = np.random.uniform(size = (num_images, num_components))
-def time_funcs(ncomponents, image_set):
+    simuliter   = functools.partial(pca_transform,data_set,ncomponents,'Simultaneous_Iteration')
+    nipals      = functools.partial(pca_transform,data_set,ncomponents,'NIPALS')
+    svdnumpy    = functools.partial(pca_transform,data_set,ncomponents,'SVD_Numpy')
 
-    simuliter = functools.partial(pca_transform,image_set,ncomponents,'Simultaneous_Iteration')
-    # fullsvd     = functools.partial(pca_transform,image_set,ncomponents,'Full_SVD')
-    # incremental = functools.partial(pca_transform,image_set,ncomponents,'Incremental_PCA')
-    nipals      = functools.partial(pca_transform,image_set,ncomponents,'NIPALS')
-    nipals_gpu = functools.partial(pca_transform,image_set,ncomponents,'NIPALS_GPU')
-    svdnumpy    = functools.partial(pca_transform,image_set,ncomponents,'SVD_Numpy')
+    t_simuliter = timeit.timeit(simuliter,number=5)
+    t_nipals    = timeit.timeit(nipals,number=5)
+    t_svdnumpy  = timeit.timeit(svdnumpy,number=5)
 
-    print('Testing Simultaneous Iteration')
-    t_simuliter   = timeit.timeit(simuliter,number=3)
-    #m_simuliter = max(memory_usage((pca_transform,(image_set,num_components,'Simultaneous_Iteration'))))
-    print('Simultaneous Iteration took'+repr(t_simuliter)+' seconds to compute '+repr(ncomponents)+' PCs')
-    #print('memory usage= '+repr(m_simuliter))
-
-    # print('Testing scikit fullsvd')
-    # t_fullsvd     = timeit.timeit(fullsvd,number=1)
-    # #m_fullsvd     = max(memory_usage(fullsvd))
-    # print('scikit fullsvd took' + repr(t_fullsvd) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    # #print('memory usage= ' + repr(m_fullsvd))
-
-    # print('Testing scikit incremental SVD')
-    # t_incremental = timeit.timeit(incremental,number=1)
-    # #m_incremental = max(memory_usage(incremental))
-    # print('scikit incremental svd took ' + repr(t_incremental) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    # #print('memory usage= ' + repr(m_incremental))
-
-    print('Testing NIPALS')
-    t_nipals      = timeit.timeit(nipals,number=3)
-    #m_nipals = max(memory_usage(nipals))
-    print('nipals took ' + repr(t_nipals) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    #print('memory usage= ' + repr(m_nipals))
-    # print('Testing NIPALS_GPU')
-    # t_nipals_gpu     = timeit.timeit(nipals_gpu,number=3)
-    # #m_nipals = max(memory_usage(nipals))
-    # print('nipals took ' + repr(t_nipals_gpu) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    # #print('memory usage= ' + repr(m_nipals))
-
-    print('Testing numpysvd')
-    t_svdnumpy    = timeit.timeit(svdnumpy,number=3)
-    #m_svdnumpy = max(memory_usage(svdnumpy))
-    print('numpy svd took ' + repr(t_svdnumpy) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    #print('memory usage= ' + repr(m_svdnumpy))
-    print('')
-    #return t_simuliter, t_fullsvd, t_incremental, t_nipals, t_svdnumpy, m_simuliter, m_fullsvd, m_incremental, m_nipals, m_svdnumpy
     return t_simuliter, t_svdnumpy, t_nipals
 
-def time_funcs3(ncomponents, image_set):
 
-    nipals      = functools.partial(pca_transform,image_set,ncomponents,'NIPALS')
-    nipals_gpu = functools.partial(pca_transform,image_set,ncomponents,'NIPALS_GPU')
+def nipals():
+
+def gpu_compare_core(ncomponents, image_set):
+
+    nipals       = functools.partial(pca_transform,image_set,ncomponents,'NIPALS')
+    nipals_gpu   = functools.partial(pca_transform,image_set,ncomponents,'NIPALS_GPU')
   
+    t_nipals     = timeit.timeit(nipals,number=5)
+    t_nipals_gpu = timeit.timeit(nipals_gpu,number=5)
   
-    print('Testing NIPALS')
-    t_nipals      = timeit.timeit(nipals,number=3)
-    #m_nipals = max(memory_usage(nipals))
-    print('nipals took ' + repr(t_nipals) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    #print('memory usage= ' + repr(m_nipals))
-    print('Testing NIPALS_GPU')
-    t_nipals_gpu     = timeit.timeit(nipals_gpu,number=3)
-    #m_nipals = max(memory_usage(nipals))
-    print('nipals took ' + repr(t_nipals_gpu) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    #print('memory usage= ' + repr(m_nipals))
     return t_nipals, t_nipals_gpu
 
-def time_funcs2(n_images, image_set):
+def gpu_compare(n_images = 25000, checklist=[10, 20, 30, 40, 50, 60]):
 
-    rset = image_set[:n_images]
+    with torch.cuda.device(0):
 
-    simuliter = functools.partial(pca_transform,rset, 50,'Simultaneous_Iteration')
-    # fullsvd     = functools.partial(pca_transform,image_set,ncomponents,'Full_SVD')
-    # incremental = functools.partial(pca_transform,image_set,ncomponents,'Incremental_PCA')
-    nipals      = functools.partial(pca_transform,rset,50,'NIPALS')
-    nipals_gpu = functools.partial(pca_transform,rset,50,'NIPALS_GPU')
-    svdnumpy    = functools.partial(pca_transform,rset,50,'SVD_Numpy')
+        max_components = max(checklist)
 
-    print('Testing Simultaneous Iteration')
-    t_simuliter   = timeit.timeit(simuliter,number=1)
-    #m_simuliter = max(memory_usage((pca_transform,(image_set,num_components,'Simultaneous_Iteration'))))
-    print('Simultaneous Iteration took'+repr(t_simuliter)+' seconds to compute')
-    #print('memory usage= '+repr(m_simuliter))
+        ret = np.zeros((len(checklist), 2), dtype="float32")
 
-    # print('Testing scikit fullsvd')
-    # t_fullsvd     = timeit.timeit(fullsvd,number=1)
-    # #m_fullsvd     = max(memory_usage(fullsvd))
-    # print('scikit fullsvd took' + repr(t_fullsvd) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    # #print('memory usage= ' + repr(m_fullsvd))
+        image_set = np.random.uniform(size = (n_images, max_components))
 
-    # print('Testing scikit incremental SVD')
-    # t_incremental = timeit.timeit(incremental,number=1)
-    # #m_incremental = max(memory_usage(incremental))
-    # print('scikit incremental svd took ' + repr(t_incremental) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    # #print('memory usage= ' + repr(m_incremental))
+        for i in range(len(checklist))
 
-    # print('Testing NIPALS')
-    # t_nipals      = timeit.timeit(nipals,number=1)
-    # #m_nipals = max(memory_usage(nipals))
-    # t_nipals *= 5
-    # print('nipals took ' + repr(t_nipals) + ' seconds to compute')
-    # #print('memory usage= ' + repr(m_nipals))
-    # # print('Testing NIPALS_GPU')
-    # # t_nipals_gpu     = timeit.timeit(nipals_gpu,number=3)
-    # # #m_nipals = max(memory_usage(nipals))
-    # # print('nipals took ' + repr(t_nipals_gpu) + ' seconds to compute ' + repr(ncomponents) + ' PCs')
-    # # #print('memory usage= ' + repr(m_nipals))
+            n_components = checklist[i]
+        
+            results[i,:] = gpu_compare(components, image_set)
+    #     np.save('gpu_results',results)
 
-    # # print('Testing numpysvd')
 
-    # aa = []
-
-    # for i in range(5):
-    #     aa.append(timeit.timeit(svdnumpy,number=1))
-
-    # t_svdnumpy = np.median(np.array(aa)) * 5
-    # #m_svdnumpy = max(memory_usage(svdnumpy))
-    # print('numpy svd took ' + repr(t_svdnumpy) + ' seconds to compute')
-    # #print('memory usage= ' + repr(m_svdnumpy))
-    # print('')
-    # #return t_simuliter, t_fullsvd, t_incremental, t_nipals, t_svdnumpy, m_simuliter, m_fullsvd, m_incremental, m_nipals, m_svdnumpy
-    return t_simuliter, 0,0
 
 
 with torch.cuda.device(0):
@@ -149,6 +67,8 @@ with torch.cuda.device(0):
     componentlist = [10, 20, 30, 40, 50, 60, 80, 100, 120, 140, 160, 200, 240, 280, 320, 360, 440, 520, 600, 680,768]
 
     results=np.zeros((20,3))
+
+
 
 
 
@@ -173,16 +93,7 @@ with torch.cuda.device(0):
     # #     print(results)
     # # legend=('Simultaneous Power Iteration', 'Full SVD', 'Incremental SVD','NIPALS','SVD Numpy')
     
-    # image_set = np.random.uniform(size = (50000, num_components))
-
-    # componentlist = [10, 20, 30, 40, 50, 60, 80, 100, 120, 140, 160]
-
-    # results=np.zeros((20,2))
-
-    # for i in range(len(componentlist)):
-    #     components = componentlist[i]
-    #     results[i,:] = time_funcs3(components, image_set)
-    #     np.save('gpu_results',results)
+  
 
 
 
