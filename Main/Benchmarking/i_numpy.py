@@ -49,6 +49,8 @@ def _SVD(X, scores, loadings, lambdas, n_components):
 
 def _SI(X, Q, Q_o, R, I, threshold=1e-6, max_iter=200): 
 
+    z = 0
+
     for k in range(max_iter):
 
         A = operator.matmul(X, Q)
@@ -60,7 +62,11 @@ def _SI(X, Q, Q_o, R, I, threshold=1e-6, max_iter=200):
         delta = operator.matmul(I - np.dot(Q, Q.T), Q_o)
         
         if np.linalg.norm(delta) <= threshold:
+
             break
+
+        z = k
+    print(k)
 
 def _MGS(A, Q, R):
 
