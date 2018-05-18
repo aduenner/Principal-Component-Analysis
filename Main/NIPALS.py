@@ -38,9 +38,11 @@ def NIPALS(X, num_components, threshold=1e-6, max_iter=50):
                 break
 
             old_eigen = new_eigen
-            
+                      
         # Update Xh
         X -= np.dot(t[:,np.newaxis], p[np.newaxis,:])
+
+        break
 
     return Scores, Loadings, Eigenvals
 

@@ -30,6 +30,11 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
 
     images = np.shape(image_set)[0]
     pixels = np.shape(image_set)[1]
+
+    dtype = image_set.dtype
+    eps = np.finfo(dtype).eps
+
+
     # Initialize transformed image set
     transformed_image_set = np.zeros((images,pixels))
     principal_components = np.zeros((images,num_components))
@@ -56,9 +61,10 @@ def pca_transform(image_set, num_components, analysis_type, stop_condition=1e-6)
     elif analysis_type == "NIPALS":
         image_means_row = np.mean(image_set, axis=0, keepdims=True)
         image_set -= image_means_row
-        image_set += 0.001
+        image_set += eps
         scores, loadings, eigenvals = nip.NIPALS(image_set,num_components,stop_condition)
-        transformed_image_set = np.dot(scores,loadings.T)
+        transformed_image_set = np.dot(scores, loadings.T)
+        transformed_image_set += (image_means_row - eps)
         principal_components = loadings.T
 
     elif analysis_type == "NIPALS_GPU":
