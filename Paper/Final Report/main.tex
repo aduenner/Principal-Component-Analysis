@@ -349,9 +349,9 @@ The data confirms the predicted linear relation between the cost and $n_{compone
 
 These data reinforce the conclusions drawn in the previous two sections. In particular, it is again clear that for problems in which large numbers of principal components must be computed, \textbf{\hyperref[3.2]{SVD}} will likely be the most efficient.
 
-\subsubsection{Overview}\label{5.1.5}
+\subsubsection{Discussion}\label{5.1.5}
 
-In general, the above assessments confirm the theoretical complexities of three three PCA algorithms. However, this means that the relationship between computational and the data parameters differs for all three algorithms. And if we extrapolate the complexity relationships observed to additional datasets and problems, we should find that the computationally cheapest PCA algorithm may vary.
+In general, the above assessments confirm the derived theoretical complexities of three three PCA algorithms. The relationship between computational complexity and the size of the data sets as well as number of principal components is different for each algorithm. Each method has its advantages and disadvantages and all methods should be considered before implementing one to denoise image data.
 
 In particular, we would expect \textbf{\hyperref[3.1]{NIPALS}} to excel in problems where $n_{components}$ is low and the total data size of the problem is sufficiently large. However, if the number of unique data samples is sufficiently large, we would expect \textbf{\hyperref[3.3]{Simultaneous Iteration}} to be the most efficient. Finally, for problems like image de-noising, where the the value of $n_{components}$ is high and the dataset size relatively small, we should expect to see that \textbf{\hyperref[3.2]{SVD}} be the most efficient.
 Indeed, as observed in the following sections, de-noising the MNIST dataset often required up to $100$ principal components to achieve the best noise reduction, And as shown by the unnormalized graphs above, the raw runtime for \textbf{\hyperref[3.2]{SVD}} was often only a fraction of that of the other two methods.
@@ -430,11 +430,11 @@ The data concerning the \textit{Error Rate}, again for the least and most noisy 
 \end{minipage}
 \end{figure}
 
-These results roughly mirror those concerning \textit{Loss}. This is hardly surprisingly, as the two metrics are inextricably linked by the classifiers. The main point of interest here is the fact that the relative discrepancy that was seen in the \textit{Loss} graphs is somewhat smaller in the \textit{Error Rate} graphs. This probably results from the fact that small changes in loss do not necessarily result in the re-classification of a sample.
+These results roughly mirror those concerning \textit{Loss}. This is hardly surprising as the two metrics are inextricably linked by the classifiers. The main point of interest here is the fact that the relative discrepancy that was seen in the \textit{Loss} graphs is somewhat smaller in the \textit{Error Rate} graphs. This probably results from the fact that small changes in loss do not necessarily result in the re-classification of a sample.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
+
 \section{Application to Classifier}\label{6}
 
 In the \textbf{\hyperref[5.2]{analysis}} of the \textit{MSE} data, we noted that the ideal value of $n_{components}$ appears to vary with the magnitude of noise applied. We also noted that this value appears to change depending on the metric used.
@@ -491,9 +491,11 @@ The use of any of the three PCA algorithms results in roughly the same result in
 
    Our results demonstrate that principal component analysis (PCA) can be an effective tool at de-noising images. Indeed, our data suggests that applying a PCA pre-processor to a set of noised images can significnatly improve data quality and aid in classification tasks, particularly when noise levels are significant.
 
-    Moreover, we find that while the output qualities of the three algorithms we analyzed, \textbf{\hyperref[3.1]{NIPALS}}, \textbf{\hyperref[3.2]{SVD}}, and \textbf{\hyperref[3.3]{Simultaneous Iteration}}, are quite similar, we find that their computaional complexity differs greatly. For image de-noising, due to the large number of components that need to be calculated, \textbf{\hyperref[3.2]{SVD}} appears to be by far the lowest in cost. Nevertheless, our results suggest that this will not always be the case, and in problems with different data requirements, one of the other variants may be the most efficient.
+    Moreover, we find that while the output qualities of the three algorithms we analyzed, \textbf{\hyperref[3.1]{NIPALS}}, \textbf{\hyperref[3.2]{SVD}}, and \textbf{\hyperref[3.3]{Simultaneous Iteration}}, are quite similar, we find that their computaional complexity differs greatly. For image de-noising, due to the large number of components being relatively close to the total number of pixels in an image, \textbf{\hyperref[3.2]{SVD}} appears to be by far the lowest in cost. Nevertheless, our results suggest that this will not always be the case, and in problems with different data requirements, one of the other variants may be the most efficient.
 
     Finally, we raise several possible avenues of further research. One of the main characteristics of our approach to PCA is that it makes no assumptions about the input data. In particular, our PCA filter is not specific to a single classifier and relies only on the noised data. Tailoring PCA to the specific classification task, perhaps by including the unnoised training data may lead to larger improvements in classifier performance. Furthermore, the improvements in performance we found when converting \textit{NumPy} code to \textit{Numba}, and the speedups obtained by utilizing a GPU suggest that there are many options to further optimize implementations of the studied algorithms.
+
+    Determining the optimal number of principal components in real-time is another avenue for future research that would lead to further advantages as one could dynamically choose the ideal implementation method based on the data set size and the number of principal components needed.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
