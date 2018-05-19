@@ -5,8 +5,8 @@ import seaborn as sns
 import os
 import matplotlib.ticker as ticker
 
-COMPONENT_VALUES = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-IMAGE_NUMBERS = [100, 200, 300, 400, 500, 600, 700, 800, 1000, 1100, 1200]
+COMPONENT_VALUES = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+IMAGE_NUMBERS = [100, 200, 300, 400, 500, 600, 700, 800, 1000]
 PIXEL_COUNTS = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320]
 
 ALGORITHMS = ['Full_SVD', 'Simultaneous_Iteration', 'NIPALS']
@@ -17,7 +17,8 @@ N_ALGORITHMS = len(ALGORITHMS)
 N_PC_TRIALS = len(PIXEL_COUNTS)
 
 NDIR = "Normalized Graphs"
-DIR = "Graphs"
+DIR = "Unnormalized Graphs"
+IMGDIR = "Images"
 
 def benchmark_pixels(dataset, n_images=5000, n_components=5, EACH=25, savename=''):
 
@@ -288,22 +289,35 @@ def graph_vs_pixels(normalized=False, savename=""):
     plt.close('all')
 
 
-def extract_image(imgset, shape, index):
+def extract_image(data, shape, index):
 
-    image_out = np.reshape(imgset[index, :], (shape, shape))
-    return image_out
+    ret = np.reshape(data[index, :], (shape, shape))
+    return ret
 
+def plot_images(data, titles, savelocation):
 
-def plot_images(imageset, title, num_images=4):
-    shape = int(np.ceil(np.sqrt(np.shape(imageset)[1])))
-    numrows = int(np.ceil(np.sqrt(num_images)))
-    for i in range(num_images):
-        plt.subplot(numrows, numrows, i+1)
-        plt.imshow(extract_image(imageset,shape,i),cmap='gray')
+    n_images = len(data)
+
+    shape = int(np.ceil(np.sqrt(np.shape(data)[1])))
+    numrows = int(np.ceil(np.sqrt(n_images)))
+
+    plt.figure(figsize=(6, 6), dpi=240)
+    sns.set(context='notebook', style='darkgrid', font="serif")
+
+    for i in range(n_images):
+        ax = plt.subplot(numrows, numrows, i+1)
+        ax.imshow(extract_image(data,shape,i),cmap='gray')
+        ax.set_title(r'$n=' + str(titles[i]) + r'$', fontsize=14)
         plt.axis('off')
-        plt.title(title)
 
-    plt.show()
+
+    fig = plt.gcf()
+    plt.tight_layout()
+    fig.subplots_adjust(top=0.85)
+    fig.suptitle(r'Effect of Varying $n_{components}$ on PCA Output', fontsize=16)
+    plt.savefig(os.path.join(IMGDIR, savelocation))
+    plt.close()
+
 
 
 if __name__ == '__main__':
@@ -316,14 +330,49 @@ if __name__ == '__main__':
     dataset = np.concatenate((train_images, test_images), axis=0)
     dataset = np.array(dataset, dtype=dtype)
 
-    # benchmark_all(dataset)
+    # benchmark_all(dataset, savename='2')
     # benchmark_pixels(dataset, savename='2')
 
 
-    graph_vs_components(True)
-    graph_vs_images(True)
-    graph_vs_components(False)
-    graph_vs_images(False)
+    # graph_vs_components(True, savename='2')
+    # graph_vs_images(True, savename='2')
+    # graph_vs_components(False, savename='2')
+    # graph_vs_images(False, savename='2')
 
     # graph_vs_pixels(True, '2')
     # graph_vs_pixels(False, '2')
+
+
+    component_numbers = [1, 2, 5, 10, 20, 50, 100, 200, 784]
+    dataset = np.load('noised_data_training_60.npy')
+
+    dataset = np.array(dataset, dtype=dtype)
+
+    perm = np.random.permutation(50)
+
+    images = list()
+
+    for n_components in component_numbers:
+
+        ret, _, _ = benchmark_SVD(dataset, n_components, False)
+
+        images.append(ret[perm])
+
+    images = np.array(images)
+    np.save('save.npy', images)
+    images = np.load('save.npy')
+
+    for j in range(images.shape[1]):
+
+        display = images[:, j, :]
+        savelocation = 'set_' + str(j) + ".png"
+        plot_images(display, component_numbers, savelocation)
+
+
+
+
+
+
+
+
+
