@@ -15,11 +15,13 @@
 \captionsetup{labelfont=bf}
 \usepackage{pythonhighlight}
 
-\newcommand{\abs}[1]{\lvert#1\rvert}
 
+%\usepackage{biblatex}
+%\bibliography{Bibliography}
 %\iffalse
-\usepackage{biblatex}
-\addbibresource{Bibliography.bib}
+%\usepackage{biblatex}
+%\addbibresource{Bibliography.bib}
+%\addbibresource{Bibliography}
 %\fi
 
 \title{Applying Principal Component Analysis for Noise Reduction in Image Classification
@@ -28,7 +30,12 @@
 \date{\today}
 
 \begin{document}
+
+\newcommand{\abs}[1]{\lvert#1\rvert}
+
+
 \maketitle
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,7 +46,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Introduction}\label{1}
-As computer vision becomes more ubiquitous, expectations for speed and robustness continue to grow. This report focuses on the application of Principal Component Analysis (PCA) as a pre-processor to improve the robustness of image classifiers with respect to noisy data. Specifically, we consider Convolutional Neural Networks (CNNs) trained on the MNIST dataset of handwritten characters. Methods for calculating principal components using singular value decomposition (SVD), eigenvector decomposition, and partial least squares minimization are introduced. 
+As computer vision becomes more ubiquitous, expectations for speed and robustness continue to grow. This report focuses on the application of Principal component analysis (PCA) as a pre-processor to improve the robustness of image classifiers with respect to noisy data. Specifically, we consider convolutional neural networks (CNNs) trained on the MNIST dataset of handwritten characters. Methods for calculating principal components using singular value decomposition (SVD), eigenvector decomposition, and partial least squares minimization are introduced. 
 
 Each method is implemented in Python and compared on the basis of \textit{Normalized Run-time}, \textit{Loss},  \textit{Error Rate}, and \textit{Mean Squared Error} (\textit{MSE}). Methods for calculating principal components are also compared on the basis of asymptotic operation count with respect to data set size, image size, and number of principal components used. Finally, the advantages and disadvantages of each method applied to image noise reduction are discussed and conclusions are presented.
 
@@ -68,9 +75,9 @@ In \textbf{\hyperref[PCA]{Figure \ref*{PCA}}} on the following page, we present 
 \subsection{NIPALS}\label{3.1}
 The nonlinear iterative partial least squares (NIPALS) algorithm is an iterative algorithm that has the advantage of calculating principal components consecutively and with arbitrary accuracy. These attributes are desirable when the number of required principal components is uncertain or variable and the requirements on accuracy are somewhat relaxed. As such, it is an algorithm well-suited for pre-processing noised images quickly.
 
-The NIPALS algorithm consists of an outer loop that calculates the $i^{th}$ next consecutive principal component . The outer loop begins with a guess of the $i^{th}$ score  vector. The initial value for $t_i$ may be set to the the $i^{th}$ column of the data set $X_i$ where i is the column index of the principal component being calculated \cite{risvik2007principal}. Next the inner product of $t_i$ is taken with respect to itself as $\lambda_i$ which represents the square of the magnitude of $t_i$. An inner loop next iteratively calculates the $i^{th}$ loading vector $p_i$, score vector $t_i$ and eigenvector $\lambda_i$. Within the inner loop $p_i$ is calculated by projecting the transpose of the data set $(X^T)$ onto the scores $t_i$. Vector $p_i$ is then normalized to prevent overflow. The scores vector $t_i$ is updated to be the projection of X onto p. A new $\lambda_{new}$ is calculated as the inner product of t with itself. If $|\lambda-\lambda_{new}|<tol$ the iterative inner loop breaks whereas otherwise $\lambda$ is set to $\lambda_{new}$.  After a number of iterations $t_i$ converges to the component score vector, $p_i$ converges to the component loading vector, and $\lambda_i$ converges to the $i^{th}$ largest eigenvalue of X. After the inner loop converges, the outer product of $t_i$ and $p_i$ is subtracted from X and the outer loop is repeated. The code snippet in Listing \ref{lst:NIPALS} below demonstrates an implementation of the NIPALS method in Python.
+The NIPALS algorithm consists of an outer loop that calculates the $i^{th}$ next consecutive principal component . The outer loop begins with a guess of the $i^{th}$ score  vector. The initial value for $t_i$ may be set to the the $i^{th}$ column of the data set $X_i$ where i is the column index of the principal component being calculated \cite{risvik2007principal}. Next the inner product of $t_i$ is taken with respect to itself as $\lambda_i$ which represents the square of the magnitude of $t_i$. An inner loop next iteratively calculates the $i^{th}$ loading vector $p_i$, score vector $t_i$ and eigenvector $\lambda_i$. Within the inner loop $p_i$ is calculated by projecting the transpose of the data set $(X^T)$ onto the scores $t_i$. Vector $p_i$ is then normalized to prevent overflow. The scores vector $t_i$ is updated to be the projection of X onto p. A new $\lambda_{new}$ is calculated as the inner product of t with itself. If $|\lambda-\lambda_{new}|<tol$ the iterative inner loop breaks whereas otherwise $\lambda$ is set to $\lambda_{new}$.  After a number of iterations $t_i$ converges to the component score vector, $p_i$ converges to the component loading vector, and $\lambda_i$ converges to the $i^{th}$ largest eigenvalue of X. After the inner loop converges, the outer product of $t_i$ and $p_i$ is subtracted from X and the outer loop is repeated. The code snippet in Listing \ref{lst:NIPALS} below demonstrates an implementation of the NIPALS algorithm in Python with the Numba \cite{numba} package.
 
-The computational complexity of the NIPALS algorithm is dominated by the matrix vector product operations used to project X onto t. Projecting $X^T$ onto $t$ and $X$ onto $p$ are both $\mathcal{O}(\textbf{mn})$ for a data set with $\textbf{m}$ samples and $\textbf{n}$ variables. Both of these operations take place within the inner loop of $k$ iterations to convergence and an outer loop of $\textbf{c}$ principal components. The entire algorithm is then $\mathcal{O}(k\textbf{c}\times\textbf{mn})$ where $\textbf{m}$ is images, $\textbf{n}$ is pixels per image, $\textbf{c}$ is number of principal components and $k$ is number of inner loop iterations necessary to reach desired accuracy.  
+The computational complexity of the NIPALS algorithm is dominated by the matrix vector product operations used to project $X^T$ onto $t$ and $X$ onto P with $\mathcal{O}(\textbf{mn})$ complexity for a data set with $\textbf{m}$ samples and $\textbf{n}$ variables. Both of these operations take place within the inner loop of $k$ iterations to convergence and an outer loop of $\textbf{c}$ principal components. The entire algorithm is then $\mathcal{O}(k\textbf{c}\times\textbf{mn})$ where $\textbf{m}$ is images, $\textbf{n}$ is pixels per image, $\textbf{c}$ is number of principal components and $k$ is number of inner loop iterations necessary to reach desired accuracy.  
 \pagebreak
 \begin{lstlisting}[frame=none,caption={NIPALS Algorithm},captionpos=b,label=lst:NIPALS]
 \end{lstlisting}
@@ -120,11 +127,11 @@ def NIPALS(X, scores, loadings, lambdas, n_components,
 
 
 %-----------------------------------------------------------------%
-\subsection{Full SVD}\label{3.2}
-Singular Value Decomposition is a commonly implemented method for calculating principal components \cite{oliphant2009numpy} \cite{scikit-learn}. For a mean-centered data set $X \in \mathbb{C}^{m,n}$, the SVD transformation satisfies the equality $X=U \Sigma V^*$ where
-$ U\in \mathbb{C}^{m,n}$ is a unitary matrix representing the left singular vectors of X, $ V\in \mathbb{C}^{n,n}$ is a unitary matrix representing the right singular vectors of X, and $\Sigma \in \mathbb{C}^{m,n}$ is a diagonal matrix of the singular values of X \cite{trefethen1997numerical}. The principal component score vectors $t_i$ can be calculated as $U \sigma $ and the loading vectors are $VX$ \cite{madsen2004singular}. 
+\subsection{SVD}\label{3.2}
+Singular Value Decomposition is a commonly implemented method for calculating principal components \cite{oliphant2009numpy} \cite{scikit-learn}. The SVD transformation satisfies the equality $X=U \Sigma V^*$ for $X \in \mathbb{C}^{m,n}$, where
+$ U\in \mathbb{C}^{m,n}$ is a unitary matrix representing the left singular vectors of X, $ V\in \mathbb{C}^{n,n}$ is a unitary matrix representing the right singular vectors of X, and $\Sigma \in \mathbb{C}^{m,n}$ is a diagonal matrix of the singular values of X \cite{trefethen1997numerical}. The principal component score vectors $t_i$ of a mean-centered dataset $X$ can be calculated as $U \Sigma $ and the loading vectors are $VX$ \cite{madsen2004singular}. 
 
-SVD decomposition was chosen as a benchmark algorithm to understand the implications of calculating only a few principal components. A common algorithm for calculating singular value decomposition of a matrix is the gebrd algorithm in LAPACK. This algorithm is of order $\mathcal{O}( (4/3)*\textbf{n}^2*(3\textbf{m} - \textbf{n}) )$ \cite{intelmath} and calculates all of the singular values and singular vectors simultaneously. Thus the NIPALS algorithm should be superior to SVD in the event that $(4/3)*\textbf{n}^2*(3\textbf{m} - \textbf{n})>(k\textbf{c}\times\textbf{mn})$.  \\ An implementation of principal component analysis by SVD using Python and the numpy library is given below in code listing \ref{lst:SVD}.
+SVD decomposition was chosen as a benchmark algorithm to highlight the computational complexity implications of calculating only a few principal components versus calculating all components at once via a method such as SVD. A common algorithm for calculating singular value decomposition of a matrix is the gebrd algorithm in LAPACK. The gebrd algorithm calculates all of the singular values and singular vectors simultaneously with $\mathcal{O}\big( \frac{4}{3}\textbf{n}^2(3\textbf{m} - \textbf{n}) \big)$ complexity \cite{intelmath}. Thus the NIPALS algorithm is computationally less complex than calculating SVD when $\frac{4}{3}\textbf{n}(3\textbf{m} - \textbf{n})>(k\textbf{c}\times\textbf{m})$.  \\ An implementation of principal component analysis by SVD using Python and the Numba package \cite{numba} is given below in code listing \ref{lst:SVD}.
 
 \begin{lstlisting}[frame=none,caption={Calculating Principal Components with SVD},captionpos=b,label=lst:SVD]
 \end{lstlisting}
@@ -145,21 +152,21 @@ def SVD(X, scores, loadings, lambdas, n_components):
 
 %-----------------------------------------------------------------%
 \subsection{Eigenvector Decomposition (Simultaneous Iteration)}\label{3.3}
-Eigenvector decomposition provides yet another method for calculating principal components. An iterative method for simultaneously calculating the the first few eigenvalues and eigenvectors was selected as a benchmark algorithm to provide a comparative basis for iteratively calculating principal components sequentially as in NIPALS versus calculating them simultaneously. 
+Eigenvector decomposition provides yet another method for calculating principal components. An iterative method for simultaneously calculating the the largest \textbf{c} eigenvalues $\lambda_c$ and eigenvectors $\Lambda_c$ was selected as a benchmark algorithm to provide a comparative basis for iteratively calculating principal components sequentially as in NIPALS versus calculating them simultaneously. 
 
-Calculating principle components with eigenvector decomposition starts with calculation of the covariance $C$ of the data set represented such that the rows are pixels and columns are samples. 
+Calculating principle components with eigenvector decomposition starts with calculation of the covariance $C \in \mathbf{R}^{n,n}$ of the zero-mean data set $X^T \in \mathbf{R}^{n,m}$ represented such that the rows \textbf{n} are variables (pixels) and the columns \textbf{m} are samples (images).  
 $$C=\frac{1}{n-1}X^TX$$
-Calculating the covariance matrix is of $\mathcal{O}(\textbf{mn}^2)$ and is a significant component of the algorithm’s overall computational efficiency.
+Calculating the covariance matrix is of $\mathcal{O}(\textbf{mn}^2)$. Note that for datasets with large images it may be unfeasible to calculate the pixel covariance and store it in memory. MNIST images with 28x28 pixels represented as int16 values on one color channel can be represented in an uncomprssed form as a 9.8MB file whereas a VGA image with 640x480 pixels requires 188GB of in-memory storage.      
 
-Eigenvector decomposition is a transformation of the form $C=Q \lambda Q'$ where Q are the eigenvectors of C and $\lambda$ are the eigenvalues. Simultaneous iteration solves for the $k$ largest eigenvalue eigenvector pairs simultaneously by repeatedly multiplying the covariance matrix $C \in \mathbb{R}^{m,n}$ multiplied by a matrix $Q^{n,c}$ which is initialized with random values. Matrix $Q$ converges to the $c$ largest eigenvectors of the covariance matrix $C$ \cite{trefethen1997numerical}. In order to prevent the largest eigenvector from dominating all columns in $Q$, Matrix A is reorthogonalized every iteration using the modified gram-schmidt procedure adapted from \cite{srinivasan}. $Q_0$ is then set to Q and the value of Q is tested for convergence. Convergence conditions are considered satisfied when the orthogonal projection of $Q$ onto $Q_0$ is sufficiently small as discussed in \cite{arbenz2012lecture}. 
+Eigenvector decomposition is a transformation of the form $C=Q \lambda Q'$ where Q are the eigenvectors of C and $\lambda$ are the eigenvalues. Simultaneous iteration solves for the $k$ largest eigenvalue eigenvector pairs simultaneously by repeatedly multiplying the covariance matrix $C \in \mathbb{R}^{n,n}$ by a matrix $Q^{n,c}$ which is initialized with random values. Matrix $Q$ converges to the $c$ largest eigenvectors of the covariance matrix $C$ \cite{trefethen1997numerical}. In order to prevent the largest eigenvector from dominating all columns in $Q$, Matrix A is reorthogonalized every iteration using the modified gram-schmidt procedure adapted from \cite{srinivasan}. $Q_0$ is then set to Q and the value of Q is tested for convergence. Convergence conditions are considered satisfied when the orthogonal projection of $Q$ onto $Q_0$ is sufficiently small as discussed in \cite{arbenz2012lecture}. 
 $$ \|(I-Q_kQ_k^T)Q_{k-1}\|<tol$$
 
 The principal component score matrix T and loading vector P can be constructed from the covariance C,  Eigenvectors $Q$ and Eigenvalues $R$ as follows.
 $$T=QC$$
 $$P=V$$
 
-The outer loop of the simultaneous power iteration algorithm is dominated in computational complexity by the multiplication of C with Q which is $\mathcal{O}(\textbf{mnc})$ and the inner loop in which modified gram schmidt is used to orthogonalize A is of $\mathcal{O}(\textbf{2mc}^2)$. The total complexity is then approximately $\mathcal{O}((2\textbf{mc}^2+\textbf{mnc})k)$ and is highly sensitive to the number of eigenvectors chosen for simultaneous computation. Code listing \ref{lst:simuliter} below shows a numpy implementation of simultaneous iteration with orthogonalization at each step by MGS. 
-
+The outer loop of the simultaneous power iteration algorithm is dominated in computational complexity by the multiplication of C with Q which is $\mathcal{O}(\textbf{cn}^2)$ and the inner loop in which modified gram schmidt is used to orthogonalize A is of $\mathcal{O}(\textbf{2nc}^2)$. The total complexity is then approximately $\mathcal{O}((2\textbf{nc}^2+\textbf{n}^2\textbf{c})k$ and is quadratic with the number of pixels chosen for simultaneous computation. $\lim_{c \to n} \mathcal{O}((2\textbf{nc}^2+\textbf{n}^2\textbf{c})k=3n^3k$ the complexity is cubic with n and as such this method should be used for low c. Code listing \ref{lst:simuliter} below shows a numpy implementation of simultaneous iteration with orthogonalization at each step by MGS. 
+\pagebreak
 \begin{lstlisting}[frame=none,caption={Calculating Principal Components with Eigenvalue Decomposition via Simultaneous Power Iteration},captionpos=b,label=lst:simuliter]
 \end{lstlisting}
 \begin{python}
@@ -200,12 +207,12 @@ def MGS(A, Q, R):
 
 Consumer grade graphics processing units have been released with the capability to perform parallel computation of floating point arithmetic at high speed. In this study GPU hardware was used for the neural network classifier and so it was a natural extension to implement the image preconditioner in GPU-executable code as well. It was hypothesized that at least some reduction in computation time could be achieved by taking advantage of parallelization of matrix operations. 
 
-PyTorch was used as a high-end language to execute the NIPALS algorithm on a consumer-grade gaming GPU. Conversion from numpy to PyTorch proved to be a trivial development exercise and the resulting algorithm ran significantly faster on the GPU when compared to execution on a CPU. Figure \ref{parallelization} shows a comparison of the CPU and GPU implementations for a range of image sizes with. The number of components calculated, $n_{components}$, is set to $5$ and full images were used ($n_{pixels}=784$). 
+PyTorch was used as a high-end language to execute the NIPALS algorithm on a consumer-grade gaming GPU. Conversion from numpy to PyTorch proved to be a trivial development exercise and the resulting algorithm ran significantly faster on the GPU when compared to execution on a CPU. Figure \ref{parallelization} shows a comparison of the CPU and GPU implemented time to process a range of dataset sample sizes \textbf{n} . The number of components calculated, $n_{components}$, is set to $5$ and full images were used ($n_{pixels}=784$). 
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=\textwidth]{U_GPU.png}
-\caption{A flow chart of the bench-marking process}
+\caption{Runtimes of the CPU- and GPU-implemented versions of the NIPALS algorithms as observed on a GTX 1080}
 \label{parallelization}
 \end{center}
 \end{figure}
@@ -227,11 +234,11 @@ The data shows that runtime on the GPU is a factor of 4-5 times less than that o
     \end{center}
     \end{figure}
     
-    A fair assessment of the relative cost of running each algorithm is rather difficult to obtain. While we implement all three using only the Python library \textit{NumPy},its built-in functions use a variety of different back-ends. Therefore, we wrap each of the \textit{NumPy} implementations inside \textit{Numba}, so that all three algorithms are compiled by LLVM and run as machine code. 
+    A fair assessment of the relative cost of running each algorithm is rather difficult to obtain. While we implement all three using only the Python library \textit{NumPy},its built-in functions use a variety of different back-ends. Therefore, we wrap each of the \textit{NumPy} implementations inside \textit{Numba} to unify the back-ends used, making it so that all three algorithms are compiled by LLVM and run as machine code. 
     
-    Moreover, since neither \textit{NumPy} nor \textit{Numba} offer methods to directly determine the number of used floating point operations, we resort to using \textit{Normalized Run-time} instead as a proxy for cost. Of course, we cannot guarantee that raw runtimes across methods are proportional to relative cost. However, given the unified \textit{Numba} backend, we should expect that the runtimes of different instances of the same method are proportional to computational complexity. Hence, if these runtimes are then normalized at some fixed value of the independent variable, we can compare their relative trajectory across that variable. Using this, we evaluate the computational complexities of the three algorithms on two values of dataset size, the number of images, $n_{images}$, and the number of pixels per image, $n_{pixels}$, as well as the number of components extracted, $n_{components}$.
+    Moreover, since neither \textit{NumPy} nor \textit{Numba} offer methods to directly determine the number of used floating point operations, we resort to using \textit{Normalized Run-time} instead as a proxy for cost. Of course, we cannot guarantee that raw runtimes across methods are proportional to relative cost. However, given the unified \textit{Numba} back-end, we should expect that the runtimes of different instances of the same method are proportional to computational complexity. Hence, if these runtimes are then normalized at some fixed value of the independent variable, we can compare their relative trajectory across that variable. Using this, we evaluate the computational complexities of the three algorithms on two values of dataset size, the number of images, $n_{images}$, and the number of pixels per image, $n_{pixels}$, as well as the number of components extracted, $n_{components}$.
     
-    In addition to the algorithms' running costs, we also measure the quality of their output. In the context of the original problem, higher quality outputs should result in an improvement in the classifier's discriminatory ability. Since this quality depends on $n_{components}$, we test each PCA algorithm on a set of $20$ $n_{components}$ values ranging from $10$ to $680$. Additionally, we apply each of these $20$ variants to $8$ different noised datasets (with mean noise mask magnitude ranging from $\mu_{noise} = 10$ to $80$), resulting in a total of $160$ different de-noised outputs for each algorithm. From there, we run these outputs through a set of five Convolutional Neural Network (CNN) classifiers, each trained using $PyTorch$ on the same un-noised training data, and record the average \textit{Loss} and average \textit{Error Rate} that is observed. 
+    In addition to the algorithms' computational costs, we also measure the quality of their output. In the context of the original problem, higher quality outputs should result in an improvement in the classifier's discriminatory ability. Since this quality depends on $n_{components}$, we test each PCA algorithm on a set of $20$ $n_{components}$ values ranging from $10$ to $680$. Additionally, we apply each of these $20$ variants to $8$ different noised datasets (with mean noise mask magnitude ranging from $\mu_{noise} = 10$ to $80$), resulting in a total of $160$ different de-noised outputs for each algorithm. From there, we run these outputs through a set of five CNN classifiers, each trained using $PyTorch$ on the same un-noised training data, and record the average \textit{Loss} and average \textit{Error Rate} that is observed. 
     
     Finally, noting that the trained classifiers are all unique and thus introduce additional variance into the problem, we select an objective evaluation of image quality. In particular, for each noised image $N_i$ in a noised dataset (where $i$ is its index in the set), we set the image it was derived from, $O_i$ as the ground truth and determine the mean squared error of the de-noised image, $D_i$ with respect to it. These values are then averaged across the entire set to obtain the final value of \textit{MSE}, as shown below:
     
@@ -255,7 +262,7 @@ We note that the computational complexity of the three PCA algorithms is primari
 
 \textbf{\hyperref[3.1]{NIPALS}}: The operation count of the inner loop is dominated by the calculation of the two dot products involving the data array $X$. Knowing that $X$ has size $(\textbf{m}, \textbf{n})$, we can deduce that both of these function calls are $\mathcal{O}(\textbf{m}\textbf{n})$. Then, taking into consideration the two loops, we find that the NIPALS method is $\mathcal{O}(k \times \textbf{c} \times \textbf{m}\textbf{n})$, where $k<=max\_iter$ represents the number of inner loop iterations needed for convergence.
 
-\textbf{\hyperref[3.2]{Full SVD}}: The method's cost is dominated by producing the SVD of the original data, which is size $(\textbf{m}, \textbf{n})$. Hence, we expect this method to have time complexity $\mathcal{O}(\textbf{m}\textbf{n} \times \min[\textbf{m}, \textbf{n}])$. Note that since the algorithm computes all the principal components by default, the runtime has no dependence on $\textbf{c}$
+\textbf{\hyperref[3.2]{SVD}}: The method's cost is dominated by producing the SVD of the original data, which is size $(\textbf{m}, \textbf{n})$. Hence, we expect this method to have time complexity $\mathcal{O}(\textbf{n}^2 \textbf{m} ])$. Note that since the algorithm computes all the principal components by default, the runtime has no dependence on $\textbf{c}$
 
 \textbf{\hyperref[3.3]{Simultaneous Iteration}}: The majority of the computation for each iteration is done to complete a Modified Gram-Schmidt (MGS) orthogonalization. Given that the inputted matrix $X$ has dimensions $(\textbf{n}, \textbf{n})$, we determine that the complexity of each inner loop within the MGS iterations is $\mathcal{O}(\textbf{n})$. Since both the inner and outer loops of MGS are called $\textbf{c}$ times, each MGS call has time complexity $\mathcal{O}(\textbf{n}\textbf{c}^2)$. Note that since the size of the input to the algorithm has no relation to the number of images inputted, the runtime has no dependence on $\textbf{m}$. Finally, as with NIPALS above, Simultaneous Iteration also loops at $k <=max\_iter$ times until convergence. Hence we find that this algorithm is $\mathcal{O}(k \times \textbf{n}\textbf{c}^2)$
 
@@ -263,7 +270,7 @@ To confirm this analysis, we vary all three of \textbf{m}, \textbf{n}, and \text
 
 \subsubsection{Runtime and $\textbf{m} == n_{images}$}\label{5.1.2}
 
-The first variable we examine is $\textbf{m} == n_{images}$. To do so, we use full images (i.e. $n_{pixels}=784$), and fix $n_{components}$ to be $50$. We then vary $n_{images}$ from $100$ to $1000$ and run $15$ trials for each of the algorithms, using the median as the representative value. We randomly select images from the dataset to ensure that representative values of $k$ are obtained for both \textbf{\hyperref[3.1]{NIPALS}} and \textbf{\hyperref[3.3]{Simultaneous Iteration}}. Finally, in 
+The first variable we examine is $\textbf{m} == n_{images}$. In this first test, full images are used ($n_{pixels}=784$), and $n_{components}$ is set as $50$. $n_{images}$ is varied from $100$ to $1000$ and $15$ trials are run for each of the algorithms. The median value of the resulting runtimes is then taken as the representative value. Also, the images used in each trial are randomly selected from the dataset to ensure that representative values of $k$ are obtained for both \textbf{\hyperref[3.1]{NIPALS}} and \textbf{\hyperref[3.3]{Simultaneous Iteration}}. 
 
 The results of this test are shown in a raw and normalized form below in \textbf{\hyperref[UPixels]{Figures \ref*{UImages}}} and \textbf{\hyperref[NPixels]{\ref*{NImages}}}, respectively. Note that in the normalized graph, all three methods are chosen to have runtime $1$ at $n_{images} = 100$.
 
@@ -284,11 +291,13 @@ The results of this test are shown in a raw and normalized form below in \textbf
 \end{minipage}
 \end{figure}
 
-Given the time complexities of the algorithms, we expect to see a linearly increasing runtime for both \textbf{\hyperref[3.1]{NIPALS}} and \textbf{\hyperref[3.2]{Full SVD}}. And indeed, this trend is clearly visible on the normalized graph. Moreover, our expectation of constant runtime for the \textbf{\hyperref[3.3]{Simultaneous Iteration}} algorithm is also confirmed by the data. 
+From our time complexity analysis, we expect to see a linearly increasing runtime for both \textbf{\hyperref[3.1]{NIPALS}} and \textbf{\hyperref[3.2]{SVD}}. And indeed, this trend is clearly visible on the normalized graph. Moreover, our expectation of constant runtime for the \textbf{\hyperref[3.3]{Simultaneous Iteration}} algorithm is also confirmed by the data. 
+
+These results suggest that for datasets in which the number of unique samples far exceeds the number of components calculated, the \textbf{\hyperref[3.3]{Simultaneous Iteration}} variant of PCA may be the most cost-efficient. However, we note that for the MNIST problem we explore, the number of computed components is usually quite large, and the number of images is relatively small, making \textbf{\hyperref[3.2]{SVD}} the most efficient. 
 
 \subsubsection{Runtime and $\textbf{n} == n_{pixels}$}\label{5.1.3}
 
-Next, we show how varying the value of $\textbf{n} == n_{pixels}$ affects the time cost of the algorithms. Specifically, we fix $n_{images}$ to $5000$ and $n_{components}$ to $5$ and vary $n_{pixels}$ from $20$ to $320$. We run $25$ trials for each of the algorithms, selecting the median value as the representative value. As before, we randomly select the images (and also pixels) used in each individual trial to ensure that we obtain representative values of $k$. 
+Next, we show how varying the value of $\textbf{n} == n_{pixels}$ affects the time cost of the algorithms. In this test, we fix $n_{images}$ to be $5000$ and $n_{components}$ to be $5$, and vary $n_{pixels}$ from $20$ to $320$. We run $25$ trials for each of the algorithms, selecting the median value as the representative value. As before, we randomly select the images (and also pixels) used in each individual trial to ensure that we obtain representative values of $k$. 
 
 The results of this test are shown in a raw and normalized form below in \textbf{\hyperref[UPixels]{Figures \ref*{UPixels}}} and \textbf{\hyperref[NPixels]{\ref*{NPixels}}}, respectively. Note that in the normalized graph, all three methods are chosen to have runtime $1$ at $n_{pixels} = 20$.
 
@@ -309,7 +318,9 @@ The results of this test are shown in a raw and normalized form below in \textbf
 \end{minipage}
 \end{figure}
 
-This specific setup ensures that $n_{images} > n_{pixels}$. Hence from the complexity analysis above, we predict \textbf{\hyperref[3.2]{Full SVD}} to have quadratic complexity in $n_{pixels}$, which the data appears to confirm. Moreover, our expectations of linear runtimes for both \textbf{\hyperref[3.1]{NIPALS}} and \textbf{\hyperref[3.3]{Simultaneous Iteration}} are also supported by the graphs. 
+Using the complexity analysis above, we predict \textbf{\hyperref[3.2]{SVD}} to have quadratic complexity in $n_{pixels}$, which the data appears to confirm. Moreover, our expectations of linear runtimes for both \textbf{\hyperref[3.1]{NIPALS}} and \textbf{\hyperref[3.3]{Simultaneous Iteration}} are also supported by the graphs. 
+
+These data suggest that for datasets with large image sizes, unlike the MNIST dataset, $SVD$ will no longer be the most cost-efficient algorithm. In particular, for datasets with many big images, it is likely that \textbf{\hyperref[3.3]{Simultaneous Iteration}} will be the most cost-efficient. On the other hand, if the images are sufficiently large and the number of components needed to be computed is relatively high, \textbf{\hyperref[3.1]{NIPALS}} may become the most efficient.
 
 \subsubsection{Runtime and $\textbf{c} == n_{components}$}\label{5.1.4}
 
@@ -334,15 +345,16 @@ The results of this test are shown in a raw and normalized form below in \textbf
 \end{minipage}
 \end{figure}
 
-The data confirms the predicted linear relation between the cost and $n_{components}$ for \textbf{\hyperref[3.1]{NIPALS}}. The quadratic complexity of \textbf{\hyperref[3.3]{Simultaneous Iteration}} is also clearly visible in the normalized graph. Finally, the data confirms that the cost of \textbf{\hyperref[3.2]{Full SVD}} does not depend at all on the number components extracted.
+The data confirms the predicted linear relation between the cost and $n_{components}$ for \textbf{\hyperref[3.1]{NIPALS}}. The quadratic complexity of \textbf{\hyperref[3.3]{Simultaneous Iteration}} is also clearly visible in the normalized graph. Finally, the data confirms that the cost of \textbf{\hyperref[3.2]{SVD}} does not depend at all on the number components extracted.
+
+These data reinforce the conclusions drawn in the previous two sections. In particular, it is again clear that for problems in which large numbers of principal components must be computed, \textbf{\hyperref[3.2]{SVD}} will likely be the most efficient. 
 
 \subsubsection{Overview}\label{5.1.5}
 
-In general, the above assessments confirm the theoretical complexities of three three PCA algorithms. However, it follows that the relationship between computational and the data parameters differs for all three algorithms. And if we extrapolate the complexity relationships observed to additional datasets and problems, we should find that the computationally cheapest PCA algorithm may vary. 
+In general, the above assessments confirm the theoretical complexities of three three PCA algorithms. However, this means that the relationship between computational and the data parameters differs for all three algorithms. And if we extrapolate the complexity relationships observed to additional datasets and problems, we should find that the computationally cheapest PCA algorithm may vary. 
 
-In particular, we would expect \textbf{\hyperref[3.1]{NIPALS}} to excel in problems where $n_{components}$ is low and the total data size of the problem is sufficiently large. However, if the number of unique data samples is sufficiently large, we would expect \textbf{\hyperref[3.3]{Simultaneous Iteration}} to be the most efficient. Finally, for problems like image de-noising, where the the value of $n_{components}$ is high and the dataset size relatively small, we should expect to see that \textbf{\hyperref[3.2]{Full SVD}} be the most efficient.
-
-Indeed, as observed in the following sections, de-noising the MNIST dataset often required up to $100$ principal components to achieve the best noise reduction, and as shown by the unnormalized graphs above, the raw runtime for \textbf{\hyperref[3.2]{Full SVD}} was often only a fraction of that of the other two methods. 
+In particular, we would expect \textbf{\hyperref[3.1]{NIPALS}} to excel in problems where $n_{components}$ is low and the total data size of the problem is sufficiently large. However, if the number of unique data samples is sufficiently large, we would expect \textbf{\hyperref[3.3]{Simultaneous Iteration}} to be the most efficient. Finally, for problems like image de-noising, where the the value of $n_{components}$ is high and the dataset size relatively small, we should expect to see that \textbf{\hyperref[3.2]{SVD}} be the most efficient.
+Indeed, as observed in the following sections, de-noising the MNIST dataset often required up to $100$ principal components to achieve the best noise reduction, And as shown by the unnormalized graphs above, the raw runtime for \textbf{\hyperref[3.2]{SVD}} was often only a fraction of that of the other two methods. 
 
 %-----------------------------------------------------------------%
 \subsection{Mean Squared Error}\label{5.2}
@@ -366,7 +378,7 @@ The obtained values of \textit{MSE} for both the lowest noise ($\mu_{noise}=10$)
 \end{minipage}
 \end{figure}
 
-The three different PCA algorithms appear to perform nearly identically on the least noisy dataset, but for the noisiest dataset, there is a non-trivial difference between the algorithms. In particular, it appears that the de-noised images from the \textbf{\hyperref[3.2]{Full SVD}} algorithm are consistently more distant from the ground truth than the de-noised images from the other two variants.
+The three different PCA algorithms appear to perform nearly identically on the least noisy dataset, but for the noisiest dataset, there is a non-trivial difference between the algorithms. In particular, it appears that the de-noised images from the \textbf{\hyperref[3.2]{SVD}} algorithm are consistently more distant from the ground truth than the de-noised images from the other two variants.
 
 Additionally, for the least noisy dataset, as $n_{components}$ increases, the value of $MSE$ generally decreases. However, for the dataset with $\mu_{noise}=80$ and the other high noise datasets, there appears to be an optimal value for $n_{components}$. That is, there is a definite minimum value of $n_{components}$ that minimizes the value of $MSE$. Therefore, we can conclude that the choice of $n_{components}$ not only has a significant impact on the algorithms' run-times but also has a large influence on the quality of images they produce.
 
@@ -392,7 +404,7 @@ As in the previous section, the obtained values of \textit{Loss} for both the lo
 \end{minipage}
 \end{figure}
 
-Like before, we see that the different PCA variants perform nearly identically for the lowest noise dataset. However, for the highest noise dataset something is quite different. Specifically, whereas before the \textbf{\hyperref[3.2]{Full SVD}} algorithm performed worse than its peers on the \textit{MSE} metric, on the \textit{Loss} metric, it appears to consistently perform the best out of the three. The reason for both of these discrepancies is unclear, though it may result from the small non-zero value added to the mean of both the \textbf{\hyperref[3.1]{NIPALS}} and  \textbf{\hyperref[3.3]{Simultaneous Iteration}} to prevent division by zero-norm vectors. In any case, we believe that the relative differences are not significant enough to have a noticeable impact on the algorithms' performance. 
+Like before, we see that the different PCA variants perform nearly identically for the lowest noise dataset. However, for the highest noise dataset something is quite different. Specifically, whereas before the \textbf{\hyperref[3.2]{SVD}} algorithm performed worse than its peers on the \textit{MSE} metric, on the \textit{Loss} metric, it appears to consistently perform the best out of the three. The reason for both of these discrepancies is unclear, though it may result from the small non-zero value added to the mean of both the \textbf{\hyperref[3.1]{NIPALS}} and  \textbf{\hyperref[3.3]{Simultaneous Iteration}} to prevent division by zero-norm vectors. In any case, we believe that the relative differences are not significant enough to have a noticeable impact on the algorithms' performance. 
 
 Additionally, a curious difference in the optimal value of $n_{components}$ between the \textit{Loss} and \textit{MSE} metrics appears. In the case of \textit{Loss}, it appears that the optimal value is somewhat smaller and the local minimum somewhat steeper. This may result from the fact that classifiers are quite sensitive to the noise that a larger number of $n_{components}$ retains.
 
@@ -477,9 +489,9 @@ The use of any of the three PCA algorithms results in roughly the same result in
 \pagebreak
 \section{Conclusion}\label{7}
 
-   Our results demonstrate that Principal Component Analysis (PCA) can be an effective tool at de-noising images. Indeed, our data suggests that applying a PCA pre-processor to a set of noised images can significnatly improve data quality and aid in classification tasks, particularly when noise levels are significant. 
+   Our results demonstrate that principal component analysis (PCA) can be an effective tool at de-noising images. Indeed, our data suggests that applying a PCA pre-processor to a set of noised images can significnatly improve data quality and aid in classification tasks, particularly when noise levels are significant. 
     
-    Moreover, we find that while the output qualities of the three algorithms we analyzed, \textbf{\hyperref[3.1]{NIPALS}}, \textbf{\hyperref[3.2]{Full SVD}}, and \textbf{\hyperref[3.3]{Simultaneous Iteration}}, are quite similar, we find that their computaional complexity differs greatly. For image de-noising, due to the large number of components that need to be calculated, \textbf{\hyperref[3.2]{Full SVD}} appears to be by far the lowest in cost. Nevertheless, our results suggest that this will not always be the case, and in problems with different data requirements, one of the other variants may be the most efficient. 
+    Moreover, we find that while the output qualities of the three algorithms we analyzed, \textbf{\hyperref[3.1]{NIPALS}}, \textbf{\hyperref[3.2]{SVD}}, and \textbf{\hyperref[3.3]{Simultaneous Iteration}}, are quite similar, we find that their computaional complexity differs greatly. For image de-noising, due to the large number of components that need to be calculated, \textbf{\hyperref[3.2]{SVD}} appears to be by far the lowest in cost. Nevertheless, our results suggest that this will not always be the case, and in problems with different data requirements, one of the other variants may be the most efficient. 
     
     Finally, we raise several possible avenues of further research. One of the main characteristics of our approach to PCA is that it makes no assumptions about the input data. In particular, our PCA filter is not specific to a single classifier and relies only on the noised data. Tailoring PCA to the specific classification task, perhaps by including the unnoised training data may lead to larger improvements in classifier performance. Furthermore, the improvements in performance we found when converting \textit{NumPy} code to \textit{Numba}, and the speedups obtained by utilizing a GPU suggest that there are many options to further optimize implementations of the studied algorithms.
 
@@ -487,6 +499,13 @@ The use of any of the three PCA algorithms results in roughly the same result in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
-\printbibliography
+
+\bibliographystyle{plain}
+
+\bibliography{Bibliography}
+
+%\printbibliography
 \end{document}
 
+%Tidbits
+% The factor k converges in a manner proportion the %maximum of $$\frac{\lambda_n-\lambda_{n-1}}%{\lambda_n},\frac{\lambda_n}{\lambda_{n+1}}$$.
