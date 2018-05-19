@@ -66,7 +66,6 @@ def _SI(X, Q, Q_o, R, I, threshold=1e-6, max_iter=200):
             break
 
         z = k
-    print(k)
 
 def _MGS(A, Q, R):
 

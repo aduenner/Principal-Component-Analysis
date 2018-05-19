@@ -8,6 +8,8 @@ import matplotlib.ticker as ticker
 COMPONENT_VALUES = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 IMAGE_NUMBERS = [100, 200, 300, 400, 500, 600, 700, 800, 1000]
 PIXEL_COUNTS = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320]
+GPU_IMAGES = [2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000]
+
 
 ALGORITHMS = ['Full_SVD', 'Simultaneous_Iteration', 'NIPALS']
 
@@ -15,10 +17,46 @@ N_CV_TRIALS = len(COMPONENT_VALUES)
 N_IN_TRIALS = len(IMAGE_NUMBERS)
 N_ALGORITHMS = len(ALGORITHMS)
 N_PC_TRIALS = len(PIXEL_COUNTS)
+N_GPU = len(GPU_IMAGES)
 
 NDIR = "Normalized Graphs"
 DIR = "Unnormalized Graphs"
 IMGDIR = "Images"
+
+def benchmark_gpu(dataset, savename='', EACH=15):
+
+    ret = np.zeros((N_GPU, EACH, 2), dtype="float64")
+    n_trials = ret.size
+    minimal = dataset[:10, :10]
+
+    benchmark_GPU(minimal.copy(), 1)
+    benchmark_NIPALS(minimal.copy(), 1, False)
+
+    completed = 0
+    n_total = dataset.shape[0]
+
+
+    for j in range(EACH):
+        for k in range(N_GPU):
+
+            n_images = GPU_IMAGES[k]
+
+            perm = np.random.permutation(n_total)[:n_images]
+            subset = dataset[perm]
+
+            _, _, _elapsed = benchmark_NIPALS(subset.copy(), 5, False)
+            _, _, _elapsed_GPU = benchmark_GPU(subset.copy(), 5)
+
+            completed += 2
+
+            ret[k, j, 0] = _elapsed
+            ret[k, j, 1] = _elapsed_GPU
+
+
+            print("Completed: ", completed, " of ", n_trials, " trials!")
+        np.save('GPU_' + savename + '.npy', ret)
+
+
 
 def benchmark_pixels(dataset, n_images=5000, n_components=5, EACH=25, savename=''):
 
@@ -289,6 +327,51 @@ def graph_vs_pixels(normalized=False, savename=""):
     plt.close('all')
 
 
+
+def graph_vs_GPU(savename=""):
+
+    runtimes = np.load('GPU_' + savename + '.npy')
+    runtimes = np.mean(runtimes, axis=1)
+
+    sns.set(context='notebook', style='darkgrid', font="serif")
+    colours = sns.color_palette(n_colors=6)
+    colour_indices = [3, 4]
+    plt.figure(figsize=(6, 4), dpi=240)
+
+    labels = ["NIPALS", "NIPALS_GPU"]
+    for k in range(2):
+
+        values = runtimes[:, k].flatten()
+
+        plt.plot(GPU_IMAGES, 
+                 values, 
+                 color=colours[colour_indices[k]],
+                 linestyle='-',
+                 linewidth=1,
+                 marker='o',
+                 markersize=4)
+
+    ax = plt.gca()
+
+    ax.set_ylabel(r"$Runtime (seconds)$" , fontsize=14)
+    ax.set_title(r"$Runtime$ vs. $n_{images}$", fontsize=16)
+ 
+
+    ax.set_xlabel(r"$n_{images}$", fontsize=14)
+
+    max_yticks = 5
+    yloc = plt.MaxNLocator(max_yticks, prune="both")
+    ax.yaxis.set_major_locator(yloc)
+
+    plt.legend(labels, title="PCA Type")
+    plt.tight_layout()
+
+    plt.savefig(os.path.join(DIR, "U_GPU.png"))
+
+    plt.show()              
+    plt.close('all')
+
+
 def extract_image(data, shape, index):
 
     ret = np.reshape(data[index, :], (shape, shape))
@@ -331,42 +414,51 @@ if __name__ == '__main__':
     dataset = np.array(dataset, dtype=dtype)
 
     # benchmark_all(dataset, savename='2')
-    # benchmark_pixels(dataset, savename='2')
-
 
     # graph_vs_components(True, savename='2')
     # graph_vs_images(True, savename='2')
     # graph_vs_components(False, savename='2')
     # graph_vs_images(False, savename='2')
 
+
+    # benchmark_pixels(dataset, savename='2')
+
     # graph_vs_pixels(True, '2')
     # graph_vs_pixels(False, '2')
 
 
-    component_numbers = [1, 2, 5, 10, 20, 50, 100, 200, 784]
-    dataset = np.load('noised_data_training_60.npy')
+    # benchmark_gpu(dataset)
 
-    dataset = np.array(dataset, dtype=dtype)
+    graph_vs_GPU()
 
-    perm = np.random.permutation(50)
 
-    images = list()
 
-    for n_components in component_numbers:
 
-        ret, _, _ = benchmark_SVD(dataset, n_components, False)
 
-        images.append(ret[perm])
+    # component_numbers = [1, 2, 5, 10, 20, 50, 100, 200, 784]
+    # dataset = np.load('noised_data_training_60.npy')
 
-    images = np.array(images)
-    np.save('save.npy', images)
-    images = np.load('save.npy')
+    # dataset = np.array(dataset, dtype=dtype)
 
-    for j in range(images.shape[1]):
+    # perm = np.random.permutation(50)
 
-        display = images[:, j, :]
-        savelocation = 'set_' + str(j) + ".png"
-        plot_images(display, component_numbers, savelocation)
+    # images = list()
+
+    # for n_components in component_numbers:
+
+    #     ret, _, _ = benchmark_SVD(dataset, n_components, False)
+
+    #     images.append(ret[perm])
+
+    # images = np.array(images)
+    # np.save('save.npy', images)
+    # images = np.load('save.npy')
+
+    # for j in range(images.shape[1]):
+
+    #     display = images[:, j, :]
+    #     savelocation = 'set_' + str(j) + ".png"
+    #     plot_images(display, component_numbers, savelocation)
 
 
 
