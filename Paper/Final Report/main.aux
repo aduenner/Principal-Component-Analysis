@@ -1,2 +1,117 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{jolliffe1986principal}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{4}{section.1}}
+\newlabel{1}{{1}{4}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Overview of Principal Components}{4}{section.2}}
+\newlabel{2}{{2}{4}{Overview of Principal Components}{section.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Result of projecting a noised image representing a $6$ onto various numbers $n$ of principal components\relax }}{5}{figure.caption.1}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{PCA}{{1}{5}{Result of projecting a noised image representing a $6$ onto various numbers $n$ of principal components\relax }{figure.caption.1}{}}
+\citation{risvik2007principal}
+\citation{numba}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Algorithms}{6}{section.3}}
+\newlabel{3}{{3}{6}{Algorithms}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}NIPALS}{6}{subsection.3.1}}
+\newlabel{3.1}{{3.1}{6}{NIPALS}{subsection.3.1}{}}
+\citation{oliphant2009numpy}
+\citation{scikit-learn}
+\citation{trefethen1997numerical}
+\citation{madsen2004singular}
+\newlabel{lst:NIPALS}{{1}{7}{NIPALS Algorithm}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}NIPALS Algorithm}{7}{lstlisting.1}}
+\citation{intelmath}
+\citation{numba}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}SVD}{8}{subsection.3.2}}
+\newlabel{3.2}{{3.2}{8}{SVD}{subsection.3.2}{}}
+\newlabel{lst:SVD}{{2}{8}{Calculating Principal Components with SVD}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}Calculating Principal Components with SVD}{8}{lstlisting.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Eigenvector Decomposition (Simultaneous Iteration)}{8}{subsection.3.3}}
+\newlabel{3.3}{{3.3}{8}{Eigenvector Decomposition (Simultaneous Iteration)}{subsection.3.3}{}}
+\citation{trefethen1997numerical}
+\citation{srinivasan}
+\citation{arbenz2012lecture}
+\newlabel{lst:simuliter}{{3}{10}{Calculating Principal Components with Eigenvalue Decomposition via Simultaneous Power Iteration}{lstlisting.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}Calculating Principal Components with Eigenvalue Decomposition via Simultaneous Power Iteration}{10}{lstlisting.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}GPU Paralellization}{10}{subsection.3.4}}
+\newlabel{3.4}{{3.4}{10}{GPU Paralellization}{subsection.3.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Runtimes of the CPU- and GPU-implemented versions of the NIPALS algorithms as observed on a GTX 1080\relax }}{12}{figure.caption.2}}
+\newlabel{parallelization}{{2}{12}{Runtimes of the CPU- and GPU-implemented versions of the NIPALS algorithms as observed on a GTX 1080\relax }{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{12}{section.4}}
+\newlabel{4}{{4}{12}{Methodology}{section.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A flow chart of the bench-marking process\relax }}{13}{figure.caption.3}}
+\newlabel{methodology}{{3}{13}{A flow chart of the bench-marking process\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Algorithm Benchmark Results}{15}{section.5}}
+\newlabel{5}{{5}{15}{Algorithm Benchmark Results}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Normalized Runtime}{15}{subsection.5.1}}
+\newlabel{5.1}{{5.1}{15}{Normalized Runtime}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Asymptotic Complexity}{15}{subsubsection.5.1.1}}
+\newlabel{5.1.1}{{5.1.1}{15}{Asymptotic Complexity}{subsubsection.5.1.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}Runtime and $\textbf  {m} == n_{images}$}{16}{subsubsection.5.1.2}}
+\newlabel{5.1.2}{{5.1.2}{16}{Runtime and $\textbf {m} == n_{images}$}{subsubsection.5.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Unnormalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }}{16}{figure.caption.4}}
+\newlabel{UImages}{{4}{16}{Unnormalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Normalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }}{16}{figure.caption.4}}
+\newlabel{NImages}{{5}{16}{Normalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}Runtime and $\textbf  {n} == n_{pixels}$}{17}{subsubsection.5.1.3}}
+\newlabel{5.1.3}{{5.1.3}{17}{Runtime and $\textbf {n} == n_{pixels}$}{subsubsection.5.1.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Unnormalized runtime behavior of PCA algorithms when $n_{pixels}$ is varied.\relax }}{17}{figure.caption.5}}
+\newlabel{UPixels}{{6}{17}{Unnormalized runtime behavior of PCA algorithms when $n_{pixels}$ is varied.\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Normalized runtime behavior of PCA algorithms when $n_{pixels}$ is varied.\relax }}{17}{figure.caption.5}}
+\newlabel{NPixels}{{7}{17}{Normalized runtime behavior of PCA algorithms when $n_{pixels}$ is varied.\relax }{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}Runtime and $\textbf  {c} == n_{components}$}{18}{subsubsection.5.1.4}}
+\newlabel{5.1.4}{{5.1.4}{18}{Runtime and $\textbf {c} == n_{components}$}{subsubsection.5.1.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Unnormalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }}{18}{figure.caption.6}}
+\newlabel{UComponents}{{8}{18}{Unnormalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Normalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }}{18}{figure.caption.6}}
+\newlabel{NComponents}{{9}{18}{Normalized runtime behavior of PCA algorithms when $n_{images}$ is varied.\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.5}Overview}{19}{subsubsection.5.1.5}}
+\newlabel{5.1.5}{{5.1.5}{19}{Overview}{subsubsection.5.1.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Mean Squared Error}{19}{subsection.5.2}}
+\newlabel{5.2}{{5.2}{19}{Mean Squared Error}{subsection.5.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The relationship between \textit  {MSE} and $n_{components}$ for the dataset with $\mu _{noise} = 10$\relax }}{20}{figure.caption.7}}
+\newlabel{Noise10MSE}{{10}{20}{The relationship between \textit {MSE} and $n_{components}$ for the dataset with $\mu _{noise} = 10$\relax }{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The relationship between \textit  {MSE} and $n_{components}$ for the dataset with $\mu _{noise} = 80$\relax }}{20}{figure.caption.7}}
+\newlabel{Noise80MSE}{{11}{20}{The relationship between \textit {MSE} and $n_{components}$ for the dataset with $\mu _{noise} = 80$\relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Loss}{20}{subsection.5.3}}
+\newlabel{5.3}{{5.3}{20}{Loss}{subsection.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The relationship between \textit  {Loss} and $n_{components}$ for the dataset with $\mu _{noise} = 10$\relax }}{21}{figure.caption.8}}
+\newlabel{Noise10Loss}{{12}{21}{The relationship between \textit {Loss} and $n_{components}$ for the dataset with $\mu _{noise} = 10$\relax }{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces The relationship between \textit  {Loss} and $n_{components}$ for the dataset with $\mu _{noise} = 80$\relax }}{21}{figure.caption.8}}
+\newlabel{Noise80Loss}{{13}{21}{The relationship between \textit {Loss} and $n_{components}$ for the dataset with $\mu _{noise} = 80$\relax }{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Error Rate}{21}{subsection.5.4}}
+\newlabel{5.4}{{5.4}{21}{Error Rate}{subsection.5.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces The relationship between \textit  {Error Rate} and $n_{components}$ for the dataset with $\mu _{noise} = 10$\relax }}{22}{figure.caption.9}}
+\newlabel{Noise10Error}{{14}{22}{The relationship between \textit {Error Rate} and $n_{components}$ for the dataset with $\mu _{noise} = 10$\relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces The relationship between \textit  {Error Rate} and $n_{components}$ for the dataset with $\mu _{noise} = 80$\relax }}{22}{figure.caption.9}}
+\newlabel{Noise80Error}{{15}{22}{The relationship between \textit {Error Rate} and $n_{components}$ for the dataset with $\mu _{noise} = 80$\relax }{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Application to Classifier}{23}{section.6}}
+\newlabel{6}{{6}{23}{Application to Classifier}{section.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces The relationship between \textit  {MSE} and $n_{components}$ for all $8$ noised datasets\relax }}{23}{figure.caption.10}}
+\newlabel{MSE_All}{{16}{23}{The relationship between \textit {MSE} and $n_{components}$ for all $8$ noised datasets\relax }{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces The relationship between \textit  {Loss} and $n_{components}$ for all $8$ noised datasets\relax }}{23}{figure.caption.10}}
+\newlabel{Loss_All}{{17}{23}{The relationship between \textit {Loss} and $n_{components}$ for all $8$ noised datasets\relax }{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces The average \textit  {Loss} of the classifiers when a PCA pre-processor is applied to the noised data\relax }}{24}{figure.caption.11}}
+\newlabel{PCA_Loss}{{18}{24}{The average \textit {Loss} of the classifiers when a PCA pre-processor is applied to the noised data\relax }{figure.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces The average \textit  {Error Rate} of the classifiers when a PCA pre-processor is applied to the noised data\relax }}{24}{figure.caption.11}}
+\newlabel{PCA_Error_Rate}{{19}{24}{The average \textit {Error Rate} of the classifiers when a PCA pre-processor is applied to the noised data\relax }{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{25}{section.7}}
+\newlabel{7}{{7}{25}{Conclusion}{section.7}{}}
+\bibstyle{plain}
+\bibdata{Bibliography}

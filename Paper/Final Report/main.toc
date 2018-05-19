@@ -1,0 +1,20 @@
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}
+\contentsline {section}{\numberline {2}Overview of Principal Components}{4}{section.2}
+\contentsline {section}{\numberline {3}Algorithms}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}NIPALS}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}SVD}{8}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Eigenvector Decomposition (Simultaneous Iteration)}{8}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}GPU Paralellization}{10}{subsection.3.4}
+\contentsline {section}{\numberline {4}Methodology}{12}{section.4}
+\contentsline {section}{\numberline {5}Algorithm Benchmark Results}{15}{section.5}
+\contentsline {subsection}{\numberline {5.1}Normalized Runtime}{15}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Asymptotic Complexity}{15}{subsubsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.2}Runtime and $\textbf {m} == n_{images}$}{16}{subsubsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.3}Runtime and $\textbf {n} == n_{pixels}$}{17}{subsubsection.5.1.3}
+\contentsline {subsubsection}{\numberline {5.1.4}Runtime and $\textbf {c} == n_{components}$}{18}{subsubsection.5.1.4}
+\contentsline {subsubsection}{\numberline {5.1.5}Overview}{19}{subsubsection.5.1.5}
+\contentsline {subsection}{\numberline {5.2}Mean Squared Error}{19}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Loss}{20}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Error Rate}{21}{subsection.5.4}
+\contentsline {section}{\numberline {6}Application to Classifier}{23}{section.6}
+\contentsline {section}{\numberline {7}Conclusion}{25}{section.7}
