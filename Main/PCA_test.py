@@ -77,13 +77,13 @@ def extract_image(imgset, shape, index):
     return image_out
 
 
-def plot_images(imageset, Method, num_images=4):
+def plot_images(imageset, Title, num_images=4):
     shape = int(np.ceil(np.sqrt(np.shape(imageset)[1])))
     numrows = int(np.ceil(np.sqrt(num_images)))
     for i in range(num_images):
         plt.subplot(numrows, numrows, i+1)
         plt.imshow(extract_image(imageset,shape,i),cmap='gray')
         plt.axis('off')
-        plt.title(Method)
+        plt.title(Title)
 
     plt.show()
